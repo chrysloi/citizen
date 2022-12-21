@@ -1,0 +1,35 @@
+import * as SecureStore from "expo-secure-store";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { GetUsers } from "../redux/actions/users";
+
+export const MAIN_COLOR = "#00A1DE";
+export const BASE_URL = "http://192.168.1.73:2022/api";
+export const Action = (type, payload) => ({
+  type,
+  payload,
+});
+export const initialState = {
+  loading: false,
+  error: null,
+};
+
+export const storeToken = async (key, value) => {
+  await SecureStore.setItemAsync(key, value);
+};
+
+export const getValueForToken = async () => {
+  let result = await SecureStore.getItemAsync("token").then((res) => {
+    return res;
+  });
+
+  return result;
+};
+
+export const getUserId = async () => {
+  let result = await SecureStore.getItemAsync("userId").then((res) => {
+    return res;
+  });
+
+  return result;
+};
