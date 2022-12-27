@@ -18,6 +18,10 @@ import { UIActivityIndicator } from "react-native-indicators";
 import { ImagePicker } from "expo";
 import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import axios from "axios";
+import { Input } from "../../components/fields";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginUser } from "../../redux/actions/users";
+// import { Login } from "../../redux/actions/auth";
 
 const initialData = {
   phone: "",
@@ -25,7 +29,9 @@ const initialData = {
 };
 export const Login = (props) => {
   const { navigation } = props;
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { user, loading } = useSelector((state) => state.login);
+  // const [loading, setLoading] = useState(false);
   const [creds, setCreds] = useState(initialData);
 
   const handlerChange = (key, value) => {
@@ -40,30 +46,7 @@ export const Login = (props) => {
 
   const handleLogin = () => {
     validate();
-    setLoading(true);
-    try {
-      axios
-        .post(`${BASE_URL}/users/login`, creds)
-        .then((res) => {
-          console.log(res.data, "+++++++++++++");
-          storeToken("token", res.data.data.token).then(() => {
-            console.log("Token stored");
-            storeToken("userId", res.data.data.user._id).then(() => {
-              console.log("id stored");
-              navigation.navigate("Main");
-            });
-          });
-        })
-        .catch((err) => {
-          console.info(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-    }
+    dispatch(LoginUser(creds));
   };
 
   return (
@@ -71,35 +54,27 @@ export const Login = (props) => {
       <KeyboardAwareScrollView style={{ flex: 1 }}>
         <View style={[styles.container]}>
           <Text style={styles.title}>Login to your {"\n"}account</Text>
-          <View>
-            <Text style={styles.inputLabel}>Phone</Text>
-            <TextInput
-              placeholder="0787000000"
-              placeholderTextColor={"#c9c9c9"}
-              keyboardType={"numeric"}
-              value={creds.phone}
-              onChangeText={(text) => handlerChange("phone", text)}
-              style={[styles.input, { width: "100%" }]}
-            />
-          </View>
+          <Input
+            label="Phone"
+            placeholder="0787000000"
+            keyboardType="numeric"
+            value={creds.phone}
+            onChangeText={(text) => handlerChange("phone", text)}
+          />
 
-          <View>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              placeholder="Create password"
-              placeholderTextColor={"#c9c9c9"}
-              value={creds.password}
-              onChangeText={(text) => handlerChange("password", text)}
-              secureTextEntry
-              style={[styles.input, { width: "100%" }]}
-            />
-          </View>
+          <Input
+            label="Password"
+            value={creds.password}
+            onChangeText={(text) => handlerChange("password", text)}
+            placeholder="Your password"
+            secureTextEntry={true}
+          />
 
-          {loading ? (
+          {loading && (
             <View style={styles.loading}>
               <UIActivityIndicator color={MAIN_COLOR} size={30} />
             </View>
-          ) : null}
+          )}
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={[styles.signIn, { fontFamily: "Poppins_400Regular" }]}>
               Sign in
@@ -133,21 +108,6 @@ const styles = StyleSheet.create({
     marginBottom: 4 * vh,
     fontFamily: "Poppins_500Medium",
   },
-  inputLabel: {
-    fontSize: 4.5 * vw,
-    fontFamily: "Poppins_400Regular",
-    marginBottom: 0.5 * vh,
-    marginLeft: 1 * vw,
-  },
-  input: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderRadius: 7,
-    padding: 1 * vmax,
-    alignItems: "center",
-    fontFamily: "Poppins_400Regular",
-    marginBottom: 2 * vh,
-  },
   button: {
     backgroundColor: MAIN_COLOR,
     width: 80 * vw,
@@ -168,23 +128,6 @@ const styles = StyleSheet.create({
   signIn: {
     color: "#fff",
     fontSize: 4.5 * vw,
-  },
-  checkbox: {
-    marginBottom: 2 * vh,
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-  or: {
-    fontSize: 4 * vw,
-    opacity: 0.5,
-    alignSelf: "center",
-    marginVertical: 2 * vh,
-  },
-  social: {
-    flexDirection: "row",
-    alignSelf: "center",
   },
   signUp: {
     flexDirection: "row",

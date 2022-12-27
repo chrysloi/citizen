@@ -1,13 +1,13 @@
-import { StyleSheet } from "react-native";
-import { WIDTH } from "../../utils";
+import { StyleSheet, StatusBar } from "react-native";
+import { vw } from "../../../utils/units";
 
 export const GradientLoad = ["rgba(0,0,0,0.3)", "rgba(0,0,0,0.3)"];
 
 export const Style = StyleSheet.create({
   visual: {
-    width: WIDTH,
+    marginTop: StatusBar.currentHeight + 10,
+    width: vw * 100,
     alignItems: "center",
-    paddingTop: 10,
     paddingLeft: 15,
     flexDirection: "row",
   },
@@ -32,18 +32,18 @@ export const Style = StyleSheet.create({
     color: "#fff",
     fontFamily: "Poppins_400Regular",
   },
-  profile_op: {
+  profile: {
     // flex: 1,
-    width: WIDTH * 0.9,
+    width: vw * 90,
     marginTop: 10,
-    marginHorizontal: WIDTH * 0.05,
+    marginHorizontal: vw * 5,
     borderTopColor: "grey",
     borderTopWidth: 0.5,
   },
   logout: {
-    width: WIDTH * 0.7,
+    width: vw * 70,
     marginTop: 10,
-    marginHorizontal: WIDTH * 0.1,
+    marginHorizontal: vw * 10,
     borderTopColor: "grey",
     borderTopWidth: 0.5,
   },

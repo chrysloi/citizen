@@ -9,40 +9,41 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Style } from "./style";
-// import { ProfileOpt } from "../../components/profileOpt";
+import { ProfileOpt } from "../../../components/profileOpt";
 import * as icons from "@expo/vector-icons";
-import { getValueForToken, MAIN_COLOR } from "../../utils";
+import { getValueForToken, MAIN_COLOR } from "../../../utils/";
+import { TextField } from "../../../components/fields";
 import { useDispatch, useSelector } from "react-redux";
-//   import { Logout } from "../../redux/actions/index ";
 import { useNavigation } from "@react-navigation/native";
+import { Logout } from "../../../redux/actions/users";
+import jwtDecode from "jwt-decode";
 
 export const Profile = () => {
   const navigation = useNavigation();
-  const [user, setUser] = useState();
   const dispatch = useDispatch();
-  // const { loggedInUser } = useSelector((state) => state.Auth);
-  // console.log(loggedInUser);
+  const [loggedInUser, setUser] = useState();
 
   useEffect(() => {
-    setUser(getValueForToken());
+    getValueForToken().then((res) => {
+      console.log(res);
+      setUser(jwtDecode(res).user);
+    });
   }, []);
-  console.log(user);
+
   const handleLogout = () => {
     console.log("logout");
-    //   dispatch(Logout());
+    dispatch(Logout());
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={Style.visual}>
-        <Image
-          source={require("../../../assets/icon.png")}
-          style={Style.image}
-        />
         <View style={Style.profiledetail}>
-          <Text style={[Style.name]}>
-            {/* {loggedInUser.fname} {loggedInUser.lname} */}
-            Eloi
-          </Text>
+          <TextField
+            value={loggedInUser?.name}
+            fontSize={20}
+            marginBottom={0}
+          />
+          {/* <Text style={[Style.name]}>{loggedInUser?.name}</Text> */}
           <Text style={Style.role}>User</Text>
         </View>
         <TouchableOpacity
@@ -60,8 +61,8 @@ export const Profile = () => {
           <icons.FontAwesome name="sign-out" size={25} color={MAIN_COLOR} />
         </TouchableOpacity>
       </View>
-      <ScrollView style={Style.profile_op} showsVerticalScrollIndicator={false}>
-        {/* <ProfileOpt
+      <ScrollView style={Style.profile} showsVerticalScrollIndicator={false}>
+        <ProfileOpt
           title="Profile"
           content="Complete profile"
           icon={
@@ -98,18 +99,7 @@ export const Profile = () => {
             <icons.AntDesign name="infocirlce" size={25} color={MAIN_COLOR} />
           }
           navigate={() => navigation.navigate("Other")}
-        /> */}
-        {/* <View style={Style.logout}>
-            <TouchableOpacity style={Style.containerLog} onPress={handleLogout}>
-              <icons.FontAwesome name="sign-out" size={25} color={MAIN_COLOR} />
-              <View style={Style.details}>
-                <Text style={[{ fontSize: 18 }, Style.font]}>Logout</Text>
-                <Text style={[{ opacity: 0.5, fontSize: 15 }, Style.font]}>
-                  Sign Out in the application
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View> */}
+        />
       </ScrollView>
     </SafeAreaView>
   );

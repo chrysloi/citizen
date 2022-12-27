@@ -33,3 +33,8 @@ export const getUserId = async () => {
 
   return result;
 };
+
+export const removerToken = async () => {
+  await SecureStore.deleteItemAsync("token");
+  await SecureStore.deleteItemAsync("userId");
+};

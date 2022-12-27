@@ -16,8 +16,8 @@ import { UIActivityIndicator } from "react-native-indicators";
 import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCells, GetVillages } from "../../redux/actions";
-import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import { Input } from "../../components/fields";
 
 const initialData = {
   name: "",
@@ -52,11 +52,11 @@ export const Register = (props) => {
   }, []);
   const validate = () => {
     if (
-      creds.name === "" &&
-      creds.phone === "" &&
-      creds.email === "" &&
-      creds.password === "" &&
-      creds.village === "" &&
+      creds.name === "" ||
+      creds.phone === "" ||
+      creds.email === "" ||
+      creds.password === "" ||
+      creds.village === "" ||
       creds.cell === ""
     ) {
       return alert("All field are required");
@@ -91,77 +91,57 @@ export const Register = (props) => {
     }
   };
 
+  console.log(creds, "++++++++++++++");
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
       <KeyboardAwareScrollView style={styles.container}>
         <Text style={styles.title}>Create your account</Text>
-        <View>
-          <Text style={styles.inputLabel}>Full name</Text>
-          <TextInput
-            placeholder="Full Name"
-            placeholderTextColor={"#c9c9c9"}
-            value={creds.name}
-            onChangeText={(text) => handlerChange("name", text)}
-            style={[styles.input, { width: "100%" }]}
-          />
-        </View>
+        <Input
+          label="Full name"
+          value={creds.name}
+          onChangeText={(text) => handlerChange("name", text)}
+          placeholder="Full Name"
+        />
 
-        <View>
-          <Text style={styles.inputLabel}>Phone</Text>
-          <TextInput
-            placeholder="0787000000"
-            placeholderTextColor={"#c9c9c9"}
-            keyboardType={"numeric"}
-            value={creds.phone}
-            onChangeText={(text) => handlerChange("phone", text)}
-            style={[styles.input, { width: "100%" }]}
-          />
-        </View>
+        <Input
+          label="Phone"
+          value={creds.phone}
+          onChangeText={(text) => handlerChange("phone", text)}
+          placeholder="0787000000"
+          keyboardType="numeric"
+        />
 
-        <View>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput
-            placeholder="mail@example.com"
-            placeholderTextColor={"#c9c9c9"}
-            keyboardType={"email-address"}
-            value={creds.email}
-            onChangeText={(text) => handlerChange("email", text)}
-            style={[styles.input, { width: "100%" }]}
-          />
-        </View>
-        <View>
-          <Text style={styles.inputLabel}>Cell</Text>
-          <View
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              paddingHorizontal: 1 * vmax,
-              marginBottom: 2 * vh,
-            }}
-          >
+        <Input
+          label="Email"
+          value={creds.email}
+          onChangeText={(text) => handlerChange("email", text)}
+          placeholder="mail@example.com"
+          keyboardType="email-address"
+        />
+
+        <Input
+          label="cell"
+          picker={true}
+          toPicker={
             <Picker
               selectedValue={cellValue}
               onValueChange={(itemValue, itemIndex) => {
                 setCellValue(itemValue);
                 handlerChange("cell", itemValue?._id);
+                handlerChange("village", "");
               }}
             >
               {cells.map((cell, idx) => (
                 <Picker.Item label={cell.name} value={cell} key={idx} />
               ))}
             </Picker>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.inputLabel}>Village</Text>
-          <View
-            style={{
-              borderWidth: 1,
-              borderRadius: 7,
-              paddingHorizontal: 1 * vmax,
-              marginBottom: 2 * vh,
-            }}
-          >
+          }
+        />
+
+        <Input
+          label="Village"
+          picker={true}
+          toPicker={
             <Picker
               selectedValue={villageValue}
               onValueChange={(itemValue, itemIndex) => {
@@ -175,19 +155,17 @@ export const Register = (props) => {
                   <Picker.Item label={village.name} value={village} key={idx} />
                 ))}
             </Picker>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.inputLabel}>Password</Text>
-          <TextInput
-            placeholder="Create password"
-            placeholderTextColor={"#c9c9c9"}
-            value={creds.password}
-            onChangeText={(text) => handlerChange("password", text)}
-            secureTextEntry
-            style={[styles.input, { width: "100%" }]}
-          />
-        </View>
+          }
+        />
+
+        <Input
+          label="Password"
+          value={creds.password}
+          onChangeText={(text) => handlerChange("password", text)}
+          placeholder="Create password"
+          secureTextEntry={true}
+        />
+
         {loading ? (
           <View style={styles.loading}>
             <UIActivityIndicator color="#000" size={30} />
@@ -222,21 +200,6 @@ const styles = StyleSheet.create({
     marginBottom: 4 * vh,
     fontFamily: "Poppins_500Medium",
   },
-  inputLabel: {
-    fontSize: 4.5 * vw,
-    fontFamily: "Poppins_400Regular",
-    marginBottom: 0.5 * vh,
-    marginLeft: 1 * vw,
-  },
-  input: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderRadius: 7,
-    padding: 1 * vmax,
-    alignItems: "center",
-    fontFamily: "Poppins_400Regular",
-    marginBottom: 2 * vh,
-  },
   button: {
     backgroundColor: MAIN_COLOR,
     width: 80 * vw,
@@ -251,23 +214,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 4.5 * vw,
     fontFamily: "Poppins_400Regular",
-  },
-  checkbox: {
-    marginBottom: 2 * vh,
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-  or: {
-    fontSize: 4 * vw,
-    opacity: 0.5,
-    alignSelf: "center",
-    marginVertical: 2 * vh,
-  },
-  social: {
-    flexDirection: "row",
-    alignSelf: "center",
   },
   signUp: {
     flexDirection: "row",
