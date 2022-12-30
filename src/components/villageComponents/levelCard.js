@@ -14,7 +14,7 @@ import { vw } from "../../utils/units";
 import { TextField } from "../fields";
 import moment from "moment";
 
-export const InquiryCard = ({ inquiry }) => {
+export const LevelCard = ({ data }) => {
   const navigation = useNavigation();
 
   return (
@@ -22,76 +22,24 @@ export const InquiryCard = ({ inquiry }) => {
       <View>
         <View style={styles.textgr}>
           <TextField
-            value={inquiry.title}
+            value={"Gatenga"}
             fontSize={18}
             fontFamily="Poppins_500Medium"
             marginBottom={0}
           />
-          <Text
-            style={[
-              styles.text,
-              inquiry.status === "Pending"
-                ? { color: "#fab430" }
-                : inquiry.status === "Resolved"
-                ? { color: "#20603D" }
-                : { color: "red" },
-            ]}
-          >
-            {inquiry.status}
-          </Text>
         </View>
-        <TextField value={inquiry.description} fontSize={15} marginBottom={0} />
-        <View style={styles.textgr}>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.text]}>Posted on </Text>
-            <Text style={styles.text}>
-              {moment(inquiry.createdAt).format("DD MMM YYYY")}
-            </Text>
-          </View>
-        </View>
-
-        {/* {!extensionOfficer ? (
-          <View style={{}}>
-            <Text style={[styles.text, { color: MAIN_COLOR }]}>
-              RAB:{"\t\t"}
-            </Text>
-            <Text style={styles.text}>Cell</Text>
-          </View>
-        ) : null} */}
+        <TextField value={"Gitifu"} fontSize={15} marginBottom={0} />
+        <TextField value={"0787"} fontSize={15} marginBottom={0} />
       </View>
-      {/* <View style={styles.textgr}>
-          {extensionOfficer ? (
-            offAdmitted ? (
-              <TouchableOpacity>
-                <Text style={[styles.text, { color: "green" }]}>Approved</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Approving", id)}
-              >
-                <Text style={styles.text}>Approve</Text>
-              </TouchableOpacity>
-            )
-          ) : rabAdmitted ? (
-            <TouchableOpacity>
-              <Text style={[styles.text, { color: "green" }]}>Approved</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Approving", id)}
-            >
-              <Text style={styles.text}>Approve</Text>
-            </TouchableOpacity>
-          )}
-        </View> */}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: vw * 2,
+    marginStart: vw * 2.5,
     marginTop: 10,
+    width: 45 * vw,
     paddingHorizontal: 12,
     backgroundColor: "#fff",
     paddingVertical: 10,
@@ -105,10 +53,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   textgr: {
-    marginTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
-    width: vw * 90,
+    width: "100%",
   },
   modal: {
     flex: 1,

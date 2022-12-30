@@ -25,13 +25,10 @@ export const UserHome = () => {
   } = useSelector((state) => state);
 
   useEffect(() => {
-    if (user.user.role === "user") {
-      getUserId().then((res) => {
-        console.log(res);
-        // dispatch(GetInquiries({ userId: res }));
-      });
+    if (user) {
+      dispatch(GetInquiries({}));
     }
-  }, []);
+  }, [user]);
   return (
     <SafeAreaView>
       <View style={styles.container}>

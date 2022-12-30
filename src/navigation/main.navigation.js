@@ -4,6 +4,7 @@ import * as icons from "@expo/vector-icons";
 import { getValueForToken, MAIN_COLOR } from "../utils";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
+import { Homes } from "../components/homes";
 
 const Tab = createBottomTabNavigator();
 

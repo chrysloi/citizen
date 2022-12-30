@@ -1,4 +1,5 @@
-import { Action, removerToken, storeToken } from "../../utils";
+import * as SecureStore from "expo-secure-store";
+import { Action, storeToken } from "../../utils";
 import {
   GET_USERS,
   GET_USERS_SUCESS,
@@ -13,6 +14,8 @@ import {
   LOGIN_SUCESS,
   LOGIN_FAILED,
   LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
 } from "../types";
 import { BASE_URL } from "../../utils";
 import axios from "axios";
@@ -44,7 +47,14 @@ export const LoginUser = (creds) => (dispatch) => {
 export const Logout = () => (dispatch) => {
   try {
     dispatch(Action(LOGOUT));
-    removerToken();
+    SecureStore.deleteItemAsync("token")
+      .then(() => {
+        dispatch(Action(LOGOUT_SUCCESS));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(Action(LOGOUT_FAILED));
+      });
   } catch (error) {
     console.error(error);
   }

@@ -85,6 +85,7 @@ export const TextField = ({
   fontSize,
   fontFamily = "Poppins_400Regular",
   marginBottom = 2 * vh,
+  textColor = "#000",
 }) => {
   return (
     <View style={{}}>
@@ -96,6 +97,7 @@ export const TextField = ({
           width: "100%",
           fontSize: fontSize,
           maxWidth: "100%",
+          color: textColor,
         }}
       >
         {value}

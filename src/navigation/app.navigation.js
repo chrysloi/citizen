@@ -9,15 +9,15 @@ import { MainNavigator } from "./main.navigation";
 const Stack = createStackNavigator();
 
 export const AppNavigator = () => {
-  const { user } = useSelector((state) => state.login);
-  console.log(user);
-  const [token, setToken] = useState();
-  useEffect(() => {
-    getValueForToken().then((res) => {
-      setToken(res);
-    });
-  }, []);
-  console.log(token);
+  const { isLoggedIn } = useSelector((state) => state.login);
+  console.log(isLoggedIn);
+  // const [token, setToken] = useState();
+  // useEffect(() => {
+  //   getValueForToken().then((res) => {
+  //     setToken(res);
+  //   });
+  // }, []);
+  // console.log(token);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -33,11 +33,12 @@ export const AppNavigator = () => {
         headerStatusBarHeight: 30,
       }}
     >
-      {user.token ? (
+      {isLoggedIn ? (
         <>
           <Stack.Screen name="Main" component={MainNavigator} />
           <Stack.Screen name="UserDetails" component={Screens.UserDetails} />
           <Stack.Screen name="NewInquiry" component={NewInquiry} />
+          {/* <Stack.Screen name="NewInquiry" component={NewInquiry} /> */}
         </>
       ) : (
         <>

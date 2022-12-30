@@ -1,7 +1,4 @@
 import * as SecureStore from "expo-secure-store";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { GetUsers } from "../redux/actions/users";
 
 export const MAIN_COLOR = "#00A1DE";
 export const BASE_URL = "http://192.168.1.73:2022/api";

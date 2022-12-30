@@ -26,37 +26,14 @@ export const ApprovedInquiries = () => {
   } = useSelector((state) => state);
 
   useEffect(() => {
-    getValueForToken().then((res) => {
-      if (jwtDecode(res).user?.role === "village") {
-        console.log(jwtDecode(res));
-        jwtDecode(res);
-        dispatch(
-          GetInquiries({ villageId: jwtDecode(res).user?.village?._id })
-        );
-      }
-    });
-  }, []);
+    if (user) {
+      dispatch(GetInquiries({}));
+    }
+  }, [user]);
+  console.log(inquiries);
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        {/* <View style={styles.head}>
-          <TextField
-            value="My inquiries"
-            fontSize={20}
-            fontFamily="Poppins_500Medium"
-            marginBottom={0}
-          />
-          <TouchableOpacity
-            style={styles.new}
-            onPress={() => {
-              navigation.navigate("NewInquiry");
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 20, alignSelf: "center" }}>
-              +
-            </Text>
-          </TouchableOpacity>
-        </View> */}
         <FlatList
           data={inquiries.filter((item) => item.status === "Resolved")}
           renderItem={({ item }) => <InquiryCard inquiry={item} />}

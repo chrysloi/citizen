@@ -31,7 +31,6 @@ export const Profile = () => {
   }, []);
 
   const handleLogout = () => {
-    console.log("logout");
     dispatch(Logout());
   };
   return (

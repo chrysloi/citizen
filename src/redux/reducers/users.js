@@ -12,11 +12,13 @@ import {
   LOGIN_SUCESS,
   LOGIN_FAILED,
   LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
 } from "../types";
 import { initialState } from "../../utils";
 
 export const loginUserReducer = (
-  state = { ...initialState, user: {} },
+  state = { ...initialState, user: {}, isLoggedIn: false },
   { type, payload }
 ) => {
   switch (type) {
@@ -30,19 +32,51 @@ export const loginUserReducer = (
         ...state,
         loading: false,
         user: payload,
+        isLoggedIn: true,
       };
     case LOGIN_FAILED:
       return {
         ...state,
         loading: false,
         error: payload,
+        isLoggedIn: false,
       };
     case LOGOUT:
       return {
         ...state,
         loading: false,
         user: {},
+        isLoggedIn: false,
       };
+    default:
+      return state;
+  }
+};
+
+export const logoutUserReducer = (
+  state = { ...initialState, message: "", loggedOut: false },
+  { type, payload }
+) => {
+  switch (type) {
+    case LOGOUT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loggedOut: true,
+        message: "Logged out",
+      };
+    case LOGOUT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
     default:
       return state;
   }

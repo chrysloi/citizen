@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Action, BASE_URL } from "../../utils";
+import * as SecureStore from "expo-secure-store";
+import { Action, BASE_URL, getValueForToken } from "../../utils";
 import {
   GET_INQUIRIES,
   GET_INQUIRIES_SUCESS,
@@ -37,6 +38,9 @@ export const GetInquiries =
   async (dispatch) => {
     try {
       dispatch(Action(GET_INQUIRIES));
+      const token = getValueForToken("token").then((res) => {
+        console.log(res);
+      });
       let query = "?";
       if (inquiryId) {
         query += `inquiryId=${inquiryId}&`;
@@ -50,14 +54,20 @@ export const GetInquiries =
         query += `categoryId=${categoryId}&`;
       }
 
-      axios
-        .get(`${BASE_URL}/inquiry${query}`)
+      axios({
+        method: "get",
+        url: `${BASE_URL}/inquiry${query}`,
+        headers: {
+          Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`,
+        },
+      })
         .then((res) => {
           dispatch(Action(GET_INQUIRIES_SUCESS, res.data.data));
         })
         .catch((err) => {
           dispatch(Action(GET_INQUIRIES_FAILED, err));
         });
+      // .get(`${BASE_URL}/inquiry${query}`)
     } catch (err) {
       console.error(err);
       dispatch(Action(GET_INQUIRIES_FAILED, err));
