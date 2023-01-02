@@ -33,6 +33,9 @@ export const MainNavigator = () => {
         headerStatusBarHeight: 30,
         tabBarActiveTintColor: MAIN_COLOR,
         tabBarInactiveTintColor: "grey",
+        tabBarLabelStyle: {
+          fontFamily: "Poppins_500Medium",
+        },
       }}
     >
       <Tab.Screen
@@ -44,6 +47,23 @@ export const MainNavigator = () => {
           },
         }}
       />
+      {user?.role === "admin" && (
+        <Tab.Screen
+          name="Admin"
+          component={Screens.AdminPanel}
+          options={{
+            tabBarIcon: ({ size, color }) => {
+              return (
+                <icons.MaterialIcons
+                  name="admin-panel-settings"
+                  color={color}
+                  size={size}
+                />
+              );
+            },
+          }}
+        />
+      )}
       <Tab.Screen
         name="Profile"
         component={Screens.Profile}

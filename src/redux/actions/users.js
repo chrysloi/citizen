@@ -81,3 +81,21 @@ export const GetUsers = ({ userId }) => {
     }
   };
 };
+
+export const UpdateUser = (user) => {
+  return (dispatch) => {
+    try {
+      dispatch(Action(UPDATE_USER));
+      axios
+        .patch(`${BASE_URL}/users/updateuser?userId=${user._id}`, user)
+        .then((res) => {
+          dispatch(Action(UPDATE_USER_SUCESS, res.data.data));
+        })
+        .catch((err) => {
+          dispatch(Action(UPDATE_USER_FAILED, err));
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};

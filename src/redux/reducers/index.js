@@ -4,6 +4,7 @@ import { cellsReducer } from "./cells";
 import { inquiriesReducer } from "./inquiry";
 import { loginUserReducer, usersReducer } from "./users";
 import { villagesReducer } from "./village";
+import { commentsReducer } from "./comments";
 
 export default combineReducers({
   users: usersReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   login: loginUserReducer,
   categories: categoriesReducer,
   inquiries: inquiriesReducer,
+  comments: commentsReducer,
 });

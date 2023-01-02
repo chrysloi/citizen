@@ -22,14 +22,14 @@ export const LevelCard = ({ data }) => {
       <View>
         <View style={styles.textgr}>
           <TextField
-            value={"Gatenga"}
+            value={data?.name}
             fontSize={18}
             fontFamily="Poppins_500Medium"
             marginBottom={0}
           />
         </View>
-        <TextField value={"Gitifu"} fontSize={15} marginBottom={0} />
-        <TextField value={"0787"} fontSize={15} marginBottom={0} />
+        <TextField value={data?.leader?.name} fontSize={15} marginBottom={0} />
+        <TextField value={data?.leader?.phone} fontSize={15} marginBottom={0} />
       </View>
     </TouchableOpacity>
   );

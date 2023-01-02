@@ -14,11 +14,11 @@ import { vw } from "../../utils/units";
 import { TextField } from "../fields";
 import moment from "moment";
 
-export const InquiryCard = ({ inquiry }) => {
+export const InquiryCard = ({ inquiry, onPress = () => {} }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
         <View style={styles.textgr}>
           <TextField
@@ -49,41 +49,7 @@ export const InquiryCard = ({ inquiry }) => {
             </Text>
           </View>
         </View>
-
-        {/* {!extensionOfficer ? (
-          <View style={{}}>
-            <Text style={[styles.text, { color: MAIN_COLOR }]}>
-              RAB:{"\t\t"}
-            </Text>
-            <Text style={styles.text}>Cell</Text>
-          </View>
-        ) : null} */}
       </View>
-      {/* <View style={styles.textgr}>
-          {extensionOfficer ? (
-            offAdmitted ? (
-              <TouchableOpacity>
-                <Text style={[styles.text, { color: "green" }]}>Approved</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Approving", id)}
-              >
-                <Text style={styles.text}>Approve</Text>
-              </TouchableOpacity>
-            )
-          ) : rabAdmitted ? (
-            <TouchableOpacity>
-              <Text style={[styles.text, { color: "green" }]}>Approved</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Approving", id)}
-            >
-              <Text style={styles.text}>Approve</Text>
-            </TouchableOpacity>
-          )}
-        </View> */}
     </TouchableOpacity>
   );
 };

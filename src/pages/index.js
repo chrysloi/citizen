@@ -3,6 +3,7 @@ import { Register } from "./auth/register";
 import { Profile } from "./main/profile/profile";
 import { UserDetails } from "./main/profile/userDetails";
 import { Home } from "./main";
+import { AdminPanel } from "./admin";
 
 export const Screens = {
   Login,
@@ -10,4 +11,5 @@ export const Screens = {
   Profile,
   UserDetails,
   Home,
+  AdminPanel,
 };

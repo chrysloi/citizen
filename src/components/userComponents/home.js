@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   FlatList,
+  Modal,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -18,6 +19,7 @@ import { InquiryCard } from "./inquiryCard";
 
 export const UserHome = () => {
   const navigation = useNavigation();
+  const [viewIquiry, setViewIquiry] = useState(false);
   const dispatch = useDispatch();
   const {
     login: { user },
@@ -52,11 +54,29 @@ export const UserHome = () => {
         </View>
         <FlatList
           data={inquiries}
-          renderItem={({ item }) => <InquiryCard inquiry={item} />}
+          renderItem={({ item }) => (
+            <InquiryCard
+              inquiry={item}
+              onPress={() => {
+                console.log("Pressed");
+                setViewIquiry(!viewIquiry);
+              }}
+            />
+          )}
           keyExtractor={(item) => item._id}
           style={{ marginBottom: vh * 40 }}
         />
       </View>
+      <Modal visible={viewIquiry} transparent>
+        <View style={{ backgroundColor: "#fff" }}>
+          <TextField
+            value={inquiry.title}
+            fontSize={18}
+            fontFamily="Poppins_500Medium"
+            marginBottom={0}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

@@ -12,6 +12,7 @@ export const Input = ({
   picker = false,
   onValueChange = {},
   toPicker = {},
+  editable = true,
 }) => {
   return (
     <View style={{}}>
@@ -55,6 +56,7 @@ export const Input = ({
             width: "100%",
             maxHeight: 15 * vh,
           }}
+          editable={editable}
         />
       ) : (
         <TextInput
@@ -74,6 +76,7 @@ export const Input = ({
             marginBottom: 2 * vh,
             width: "100%",
           }}
+          editable={editable}
         />
       )}
     </View>
@@ -86,10 +89,12 @@ export const TextField = ({
   fontFamily = "Poppins_400Regular",
   marginBottom = 2 * vh,
   textColor = "#000",
+  onPress = () => {},
 }) => {
   return (
-    <View style={{}}>
+    <View>
       <Text
+        onPress={onPress}
         style={{
           alignItems: "center",
           fontFamily: fontFamily,

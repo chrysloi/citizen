@@ -63,7 +63,7 @@ export const Home = () => {
             component={NonApprovedInquiries}
             options={{ tabBarLabel: "Pending inquiries" }}
           />
-          {loggedInUser?.role !== "village" && (
+          {/* {loggedInUser?.role !== "village" && (
             <Tab.Screen
               name="Manage"
               component={Manage}
@@ -74,7 +74,7 @@ export const Home = () => {
                     : "Manage cells",
               }}
             />
-          )}
+          )} */}
         </Tab.Navigator>
       </SafeAreaView>
     );

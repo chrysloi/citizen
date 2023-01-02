@@ -7,23 +7,34 @@ import {
   Text,
   FlatList,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getValueForToken, MAIN_COLOR } from "../utils";
 import { vw } from "../utils/units";
 import { TextField } from "./fields";
-import { InquiryCard } from "./userComponents/inquiryCard";
-import { LevelCard as VillageCard } from "./villageComponents/levelCard";
+import { LevelCard } from "./villageComponents/levelCard";
+import { GetCells, GetVillages } from "../redux/actions";
 
 export const Manage = () => {
+  const dispatch = useDispatch();
   const [loggedInUser, setUser] = useState();
   const {
     login: { user },
+    villages: { villages },
+    cells: { cells },
   } = useSelector((state) => state);
   useEffect(() => {
     getValueForToken().then((res) => {
       setUser(jwtDecode(res).user);
     });
   }, [user]);
+  useEffect(() => {
+    if (loggedInUser?.role === "cell") {
+      dispatch(GetVillages({ cellId: loggedInUser?.cell?._id }));
+    } else {
+      dispatch(GetCells({}));
+    }
+  }, [loggedInUser]);
+  console.log(cells);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity
@@ -37,13 +48,9 @@ export const Manage = () => {
         />
       </TouchableOpacity>
       <FlatList
-        data={[
-          { key: 1, name: "data" },
-          { key: 2, name: "data" },
-          { key: 3, name: "data" },
-        ]}
+        data={loggedInUser?.role === "cell" ? villages : cells}
         renderItem={({ item }) => {
-          return <VillageCard inquiry={item} key={item.key} />;
+          return <LevelCard data={item} key={item._id} />;
         }}
         numColumns={2}
         keyExtractor={(_, index) => index.toString()}
