@@ -14,6 +14,7 @@ import {
   LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+  RESET,
 } from "../types";
 import { initialState } from "../../utils";
 
@@ -41,12 +42,40 @@ export const loginUserReducer = (
         error: payload,
         isLoggedIn: false,
       };
-    case LOGOUT:
+    default:
+      return state;
+  }
+};
+
+export const RegisterUserReducer = (
+  state = { ...initialState, user: {}, isRegistered: false },
+  { type, payload }
+) => {
+  switch (type) {
+    case CREATE_USER:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CREATE_USER_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        user: payload,
+        isRegistered: true,
+      };
+    case CREATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    case RESET:
       return {
         ...state,
         loading: false,
         user: {},
-        isLoggedIn: false,
+        isRegistered: false,
       };
     default:
       return state;

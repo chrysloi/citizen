@@ -69,12 +69,12 @@ export const UserHome = () => {
       </View>
       <Modal visible={viewIquiry} transparent>
         <View style={{ backgroundColor: "#fff" }}>
-          <TextField
+          {/* <TextField
             value={inquiry.title}
             fontSize={18}
             fontFamily="Poppins_500Medium"
             marginBottom={0}
-          />
+          /> */}
         </View>
       </Modal>
     </SafeAreaView>

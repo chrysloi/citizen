@@ -16,6 +16,10 @@ import {
   LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+  REGISTER,
+  REGISTER_SUCESS,
+  REGISTER_FAILED,
+  RESET,
 } from "../types";
 import { BASE_URL } from "../../utils";
 import axios from "axios";
@@ -42,6 +46,27 @@ export const LoginUser = (creds) => (dispatch) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const RegisterUser = (creds) => (dispatch) => {
+  dispatch(Action(CREATE_USER));
+  try {
+    axios
+      .post(`${BASE_URL}/users/createuser`, creds)
+      .then((res) => {
+        dispatch(Action(CREATE_USER_SUCESS, res.data.data));
+      })
+      .catch((err) => {
+        console.info(err);
+        dispatch(Action(CREATE_USER_FAILED, err));
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const resetRegister = () => (dispatch) => {
+  dispatch(Action(RESET, "Reset register success"));
 };
 
 export const Logout = () => (dispatch) => {

@@ -13,6 +13,7 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
+export const RESET = "RESET";
 
 export const GET_CELLS = "GET_CELLS";
 export const GET_CELLS_SUCESS = "GET_CELLS_SUCESS";

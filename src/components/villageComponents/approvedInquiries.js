@@ -19,6 +19,7 @@ import { vh, vw } from "../../utils/units";
 import { TextField } from "../fields";
 import { InquiryCard } from "../userComponents/inquiryCard";
 import { GetComments } from "../../redux/actions/comment";
+import { ViewInquiry } from "../viewInquiry";
 
 export const ApprovedInquiries = () => {
   const navigation = useNavigation();
@@ -71,7 +72,13 @@ export const ApprovedInquiries = () => {
           style={{ paddingBottom: vh * 1 }}
         />
       </View>
-      <Modal visible={viewIquiry}>
+      <ViewInquiry
+        viewIquiry={viewIquiry}
+        setViewIquiry={setViewIquiry}
+        setInquiry={setInquiry}
+        inquiry={inquiry}
+      />
+      {/* <Modal visible={viewIquiry}>
         <View
           style={{
             backgroundColor: "whitesmoke",
@@ -129,7 +136,7 @@ export const ApprovedInquiries = () => {
                   textColor="#fff"
                 />
               </TouchableOpacity>
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 style={[styles.btn, { marginTop: 15 }]}
                 // onPress={() => navigation.navigate("AddUser")}
               >
@@ -138,7 +145,7 @@ export const ApprovedInquiries = () => {
                   marginBottom={0}
                   textColor="#fff"
                 />
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           </View>
           <View
@@ -184,7 +191,7 @@ export const ApprovedInquiries = () => {
             />
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </SafeAreaView>
   );
 };
