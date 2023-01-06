@@ -1,5 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import * as icons from "@expo/vector-icons";
+import {
+  MaterialIndicator,
+  UIActivityIndicator,
+} from "react-native-indicators";
 import {
   FlatList,
   Modal,
@@ -23,7 +28,7 @@ export const UserHome = () => {
   const dispatch = useDispatch();
   const {
     login: { user },
-    inquiries: { inquiries },
+    inquiries: { inquiries, loading },
   } = useSelector((state) => state);
 
   useEffect(() => {
@@ -31,9 +36,12 @@ export const UserHome = () => {
       dispatch(GetInquiries({}));
     }
   }, [user]);
+  const onRefresh = () => {
+    dispatch(GetInquiries({}));
+  };
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View style={styles.head}>
           <TextField
             value="My inquiries"
@@ -41,31 +49,50 @@ export const UserHome = () => {
             fontFamily="Poppins_500Medium"
             marginBottom={0}
           />
-          <TouchableOpacity
-            style={styles.new}
-            onPress={() => {
-              navigation.navigate("NewInquiry");
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 20, alignSelf: "center" }}>
-              +
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={inquiries}
-          renderItem={({ item }) => (
-            <InquiryCard
-              inquiry={item}
+          <View style={{ flexDirection: "row" }}>
+            <icons.Ionicons
+              name="refresh"
+              size={25}
+              color={MAIN_COLOR}
               onPress={() => {
-                console.log("Pressed");
-                setViewIquiry(!viewIquiry);
+                onRefresh();
               }}
             />
-          )}
-          keyExtractor={(item) => item._id}
-          style={{ marginBottom: vh * 40 }}
-        />
+            <TouchableOpacity
+              style={styles.new}
+              onPress={() => {
+                navigation.navigate("NewInquiry");
+              }}
+            >
+              <Text
+                style={{ color: "#fff", fontSize: 20, alignSelf: "center" }}
+              >
+                +
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {loading ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <UIActivityIndicator color={MAIN_COLOR} size={60} />
+          </View>
+        ) : (
+          <FlatList
+            data={inquiries}
+            renderItem={({ item }) => (
+              <InquiryCard
+                inquiry={item}
+                onPress={() => {
+                  console.log("Pressed");
+                  setViewIquiry(!viewIquiry);
+                }}
+              />
+            )}
+            keyExtractor={(item) => item._id}
+          />
+        )}
       </View>
       <Modal visible={viewIquiry} transparent>
         <View style={{ backgroundColor: "#fff" }}>
@@ -82,7 +109,9 @@ export const UserHome = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   new: {
     backgroundColor: MAIN_COLOR,
     height: 35,
@@ -90,6 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: 10,
   },
   head: {
     paddingTop: StatusBar.currentHeight + 10,

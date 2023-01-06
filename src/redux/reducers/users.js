@@ -42,6 +42,13 @@ export const loginUserReducer = (
         error: payload,
         isLoggedIn: false,
       };
+    case LOGOUT:
+      return {
+        ...state,
+        loading: false,
+        user: {},
+        isLoggedIn: false,
+      };
     default:
       return state;
   }

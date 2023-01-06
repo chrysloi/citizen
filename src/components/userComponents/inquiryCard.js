@@ -14,7 +14,7 @@ import { vw } from "../../utils/units";
 import { TextField } from "../fields";
 import moment from "moment";
 
-export const InquiryCard = ({ inquiry, onPress = () => {} }) => {
+export const InquiryCard = ({ inquiry, onPress }) => {
   const navigation = useNavigation();
 
   return (

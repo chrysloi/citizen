@@ -83,8 +83,6 @@ export const Register = (props) => {
       },
     ]);
   }
-  console.log(">>>>>>>>>>>>>>", creds.cell);
-  console.log("<<<<<<<<<<<", creds.cell, ">>>>>>>>>>>");
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
       {gettingCells && !cells ? (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FlatList,
   Modal,
@@ -11,6 +11,7 @@ import { vh, vw } from "../utils/units";
 import { TextField } from "./fields";
 import { useDispatch, useSelector } from "react-redux";
 import { GetComments } from "../redux/actions/comment";
+import { MAIN_COLOR } from "../utils";
 
 export const ViewInquiry = ({
   viewIquiry,
@@ -22,79 +23,80 @@ export const ViewInquiry = ({
   const {
     comments: { comments, loading },
   } = useSelector((state) => state);
+  useEffect(() => {
+    dispatch(GetComments({ inquiryId: inquiry._id }));
+  }, []);
   const onRefresh = () => {
     dispatch(GetComments({ inquiryId: inquiry._id }));
   };
   return (
-    <Modal visible={viewIquiry}>
+    <Modal visible={viewIquiry} style={{ flex: 1 }}>
       <View
         style={{
-          backgroundColor: "whitesmoke",
-          flex: 1,
-          // paddingHorizontal: 2 * vw,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingHorizontal: 3 * vw,
+          paddingVertical: 2 * vh,
+          backgroundColor: "#fff",
+          alignItems: "center",
         }}
       >
+        <icons.AntDesign
+          name="arrowleft"
+          size={20}
+          color="black"
+          onPress={() => {
+            Promise.resolve(setInquiry({})).then(() => {
+              setViewIquiry(!viewIquiry);
+            });
+          }}
+        />
+        <TextField
+          value={inquiry.title}
+          fontSize={20}
+          fontFamily="Poppins_500Medium"
+          marginBottom={0}
+        />
+        <icons.AntDesign
+          name="edit"
+          size={20}
+          color="black"
+          onPress={() => {
+            // Promise.resolve(setInquiry({})).then(() => {
+            //   setViewIquiry(!viewIquiry);
+            // });
+          }}
+        />
+      </View>
+      <View style={{ paddingHorizontal: vw * 2, paddingTop: 2 * vh }}>
+        <TextField value={inquiry.description} fontSize={16} />
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 3 * vw,
-            paddingVertical: 2 * vh,
-            backgroundColor: "#fff",
-            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-around",
           }}
         >
-          <icons.AntDesign
-            name="arrowleft"
-            size={20}
-            color="black"
-            onPress={() => {
-              Promise.resolve(setInquiry({})).then(() => {
-                setViewIquiry(!viewIquiry);
-              });
-            }}
-          />
-          <TextField
-            value={inquiry.title}
-            fontSize={20}
-            fontFamily="Poppins_500Medium"
-            marginBottom={0}
-          />
-          <icons.AntDesign
-            name="edit"
-            size={20}
-            color="black"
-            onPress={() => {
-              // Promise.resolve(setInquiry({})).then(() => {
-              //   setViewIquiry(!viewIquiry);
-              // });
-            }}
-          />
-        </View>
-        <View style={{ paddingHorizontal: vw * 2, paddingTop: 2 * vh }}>
-          <TextField value={inquiry.description} fontSize={16} />
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={[styles.btn, { marginTop: 15, marginEnd: vw * 2 }]}
-              // onPress={() => navigation.navigate("AddUser")}
-            >
-              <TextField
-                value={"Mark resolved"}
-                marginBottom={0}
-                textColor="#fff"
-              />
-            </TouchableOpacity>
-            {/* <TouchableOpacity
-                style={[styles.btn, { marginTop: 15 }]}
-                // onPress={() => navigation.navigate("AddUser")}
-              >
-                <TextField
-                  value={"Request support"}
-                  marginBottom={0}
-                  textColor="#fff"
-                />
-              </TouchableOpacity> */}
-          </View>
+          <TouchableOpacity
+            style={[styles.btn]}
+            // onPress={() => navigation.navigate("AddUser")}
+          >
+            <TextField
+              value={"Mark resolved"}
+              marginBottom={0}
+              textColor="#fff"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.btn]}
+            // onPress={() => navigation.navigate("AddUser")}
+          >
+            <TextField
+              value={"Request support"}
+              marginBottom={0}
+              textColor="#fff"
+            />
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -143,4 +145,16 @@ export const ViewInquiry = ({
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  btn: {
+    backgroundColor: MAIN_COLOR,
+    width: 38 * vw,
+    paddingHorizontal: 2 * vw,
+    borderRadius: 20,
+    height: 7 * vh,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 2 * vh,
+  },
+});

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import jwtDecode from "jwt-decode";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -16,24 +16,42 @@ import { getUserId, getValueForToken, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
 import { TextField } from "../fields";
 import { InquiryCard } from "../userComponents/inquiryCard";
+import { ViewInquiry } from "../viewInquiry";
 
 export const NonApprovedInquiries = () => {
   const navigation = useNavigation();
+  const [viewIquiry, setViewIquiry] = useState(false);
+  const [inquiry, setInquiry] = useState({});
   const {
     inquiries: { inquiries },
     login: { user },
   } = useSelector((state) => state);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <FlatList
           data={inquiries.filter((item) => item.status !== "Resolved")}
-          renderItem={({ item }) => <InquiryCard inquiry={item} />}
+          renderItem={({ item }) => (
+            <InquiryCard
+              inquiry={item}
+              onPress={() => {
+                console.log("Pressed");
+                Promise.resolve(setInquiry(item)).then(() => {
+                  setViewIquiry(!viewIquiry);
+                });
+              }}
+            />
+          )}
           keyExtractor={(item) => item._id}
-          style={{ paddingBottom: vh * 1 }}
         />
       </View>
+      <ViewInquiry
+        viewIquiry={viewIquiry}
+        setViewIquiry={setViewIquiry}
+        setInquiry={setInquiry}
+        inquiry={inquiry}
+      />
     </SafeAreaView>
   );
 };

@@ -37,24 +37,6 @@ export const inquiriesReducer = (
         error: payload,
       };
 
-    case CREATE_INQUIRY:
-      return {
-        ...state,
-        loading: true,
-      };
-    case CREATE_INQUIRY_SUCESS:
-      return {
-        ...state,
-        loading: false,
-        message: "Created successfully",
-      };
-    case CREATE_INQUIRY_FAILED:
-      return {
-        ...state,
-        loading: false,
-        error: payload,
-      };
-
     case UPDATE_INQUIRY:
       return {
         ...state,
@@ -90,6 +72,36 @@ export const inquiriesReducer = (
         loading: false,
         error: payload,
       };
+    default:
+      return state;
+  }
+};
+
+export const createInquiryReducer = (
+  state = { ...initialState, inquiry: {}, message: "" },
+  { type, payload }
+) => {
+  switch (type) {
+    case CREATE_INQUIRY:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CREATE_INQUIRY_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        message: "Created successfully",
+        inquiry: payload,
+      };
+    case CREATE_INQUIRY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        inquiry: {},
+        error: payload,
+      };
+
     default:
       return state;
   }

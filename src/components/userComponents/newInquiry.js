@@ -41,14 +41,15 @@ export const NewInquiry = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  //   const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
   const [creds, setCreds] = useState(initialData);
   const [categoryValue, setCategoryValue] = useState();
   const [user, setUser] = useState();
+  const [valid, setValid] = useState(false);
 
   const {
     categories: { categories },
-    inquiries: { loading, message },
+    createInquiry: { loading, inquiry },
   } = state;
 
   const handlerChange = (key, value) => {
@@ -77,26 +78,68 @@ export const NewInquiry = (props) => {
       }));
     }
   }, [user]);
+  useEffect(() => {
+    if (categories[0]) {
+      setCreds((prevCred) => ({
+        ...prevCred,
+        category: categories[0]._id,
+      }));
+    }
+  }, [categories]);
 
   const validate = () => {
-    if (
-      creds.title === "" ||
-      creds.description === "" ||
-      creds.category === null
-    ) {
-      return alert("All field are required");
-    }
+    if (creds.title === "") return alert("Title is required");
+    else if (creds.description === "") return alert("Description is required");
+    else if (creds.category === "") return alert("Category is required");
+    else setValid(true);
   };
 
   const handleNewInquiry = () => {
     validate();
-    dispatch(CreateInquiry(creds));
+    try {
+      axios
+        .post(`${BASE_URL}/inquiry`, creds)
+        .then((res) => {
+          console.log(res.status);
+          if (res.status === 201) {
+            Alert.alert("Success", "Inquiry sent successfully", [
+              {
+                text: "OK",
+                onPress: () => {
+                  navigation.navigate("Main");
+                  // dispatch(resetRegister());
+                },
+              },
+            ]);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          Alert.alert("Failed", "Error accorrured", [
+            {
+              text: "OK",
+              onPress: () => {
+                // navigation.navigate("Main");
+                // dispatch(resetRegister());
+              },
+            },
+          ]);
+        });
+    } catch (error) {
+      Alert.alert("Failed", "Error accorrured", [
+        {
+          text: "OK",
+          onPress: () => {
+            // navigation.navigate("Main");
+            // dispatch(resetRegister());
+          },
+        },
+      ]);
+    }
   };
-
-  if (!loading && message !== "") {
-    navigation.goBack();
+  if (inquiry !== {}) {
   }
-  console.log(message, "++++++++++++++");
+
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
       <KeyboardAwareScrollView style={styles.container}>
