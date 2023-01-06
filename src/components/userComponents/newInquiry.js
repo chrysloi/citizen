@@ -60,7 +60,6 @@ export const NewInquiry = (props) => {
     dispatch(GetCategories({}));
     getValueForToken("user")
       .then((res) => {
-        console.log(res);
         setUser(jwtDecode(res).user);
       })
       .catch((err) => {
@@ -77,7 +76,7 @@ export const NewInquiry = (props) => {
         village: user?.village?._id,
       }));
     }
-  }, [user]);
+  }, []);
   useEffect(() => {
     if (categories[0]) {
       setCreds((prevCred) => ({
@@ -100,7 +99,6 @@ export const NewInquiry = (props) => {
       axios
         .post(`${BASE_URL}/inquiry`, creds)
         .then((res) => {
-          console.log(res.status);
           if (res.status === 201) {
             Alert.alert("Success", "Inquiry sent successfully", [
               {

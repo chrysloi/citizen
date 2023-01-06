@@ -25,7 +25,6 @@ export const Profile = () => {
 
   useEffect(() => {
     getValueForToken().then((res) => {
-      console.log(res);
       setUser(jwtDecode(res).user);
     });
   }, []);

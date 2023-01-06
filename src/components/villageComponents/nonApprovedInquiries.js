@@ -36,7 +36,6 @@ export const NonApprovedInquiries = () => {
             <InquiryCard
               inquiry={item}
               onPress={() => {
-                console.log("Pressed");
                 Promise.resolve(setInquiry(item)).then(() => {
                   setViewIquiry(!viewIquiry);
                 });

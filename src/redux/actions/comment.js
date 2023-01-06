@@ -17,12 +17,18 @@ import {
 } from "../types";
 
 export const CreateComment =
-  ({ inquiryId, comment }) =>
+  ({ inquiryId, data }) =>
   async (dispatch) => {
     try {
       dispatch(Action(CREATE_COMMENT));
-      axios
-        .post(`${BASE_URL}/comments/${inquiryId}`, comment)
+      axios({
+        method: "post",
+        url: `${BASE_URL}/comments/${inquiryId}`,
+        headers: {
+          Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`,
+        },
+        data: data,
+      })
         .then((res) => {
           dispatch(Action(CREATE_COMMENT_SUCESS, res.data.data));
         })
@@ -43,7 +49,7 @@ export const GetComments =
       axios
         .get(`${BASE_URL}/comments/${inquiryId}`)
         .then((res) => {
-          dispatch(Action(GET_COMMENTS_SUCESS, res));
+          dispatch(Action(GET_COMMENTS_SUCESS, res.data.data));
         })
         .catch((err) => {
           dispatch(Action(GET_COMMENTS_FAILED, err));

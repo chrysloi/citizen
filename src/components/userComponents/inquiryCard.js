@@ -18,7 +18,12 @@ export const InquiryCard = ({ inquiry, onPress }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate("ViewInquiry", { inquiry });
+      }}
+    >
       <View>
         <View style={styles.textgr}>
           <TextField

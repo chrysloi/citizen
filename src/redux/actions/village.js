@@ -16,7 +16,6 @@ import axios from "axios";
 export const GetVillages =
   ({ cellId, villageId }) =>
   (dispatch) => {
-    console.log("test");
     try {
       let params = "?";
       if (cellId) {

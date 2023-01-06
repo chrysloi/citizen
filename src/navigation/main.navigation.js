@@ -12,11 +12,9 @@ export const MainNavigator = () => {
   const [user, setUser] = useState();
   useEffect(() => {
     getValueForToken().then((res) => {
-      console.log(res);
       setUser(jwtDecode(res).user);
     });
   }, []);
-  console.log(user);
   return (
     <Tab.Navigator
       screenOptions={{

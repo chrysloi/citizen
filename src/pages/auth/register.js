@@ -68,9 +68,7 @@ export const Register = (props) => {
 
   const handleRegister = () => {
     validate();
-    Promise.resolve(dispatch(RegisterUser(creds))).then((res) => {
-      console.log(res);
-    });
+    Promise.resolve(dispatch(RegisterUser(creds))).then((res) => {});
   };
   if (isRegistered) {
     Alert.alert("Success", "You've Registered", [

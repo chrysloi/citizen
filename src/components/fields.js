@@ -13,6 +13,8 @@ export const Input = ({
   onValueChange = {},
   toPicker = {},
   editable = true,
+  width = "100%",
+  marginBottom = 2 * vh,
 }) => {
   return (
     <View style={{}}>
@@ -32,7 +34,7 @@ export const Input = ({
             borderWidth: 1,
             borderRadius: 7,
             paddingHorizontal: 1 * vmax,
-            marginBottom: 2 * vh,
+            marginBottom: marginBottom,
             height: "auto",
           }}
         >
@@ -52,7 +54,7 @@ export const Input = ({
             borderRadius: 7,
             padding: 1 * vmax,
             fontFamily: "Poppins_400Regular",
-            marginBottom: 2 * vh,
+            marginBottom: marginBottom,
             width: "100%",
             maxHeight: 15 * vh,
           }}
@@ -73,8 +75,8 @@ export const Input = ({
             padding: 1 * vmax,
             alignItems: "center",
             fontFamily: "Poppins_400Regular",
-            marginBottom: 2 * vh,
-            width: "100%",
+            marginBottom: marginBottom,
+            width: width,
           }}
           editable={editable}
         />

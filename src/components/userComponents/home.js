@@ -85,7 +85,6 @@ export const UserHome = () => {
               <InquiryCard
                 inquiry={item}
                 onPress={() => {
-                  console.log("Pressed");
                   setViewIquiry(!viewIquiry);
                 }}
               />

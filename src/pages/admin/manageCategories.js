@@ -40,7 +40,7 @@ export const ManageCategories = () => {
     getValueForToken().then((res) => {
       setUser(jwtDecode(res).user);
     });
-  }, [user]);
+  }, []);
   useEffect(() => {
     if (loggedInUser?.role === "cell") {
       dispatch(GetVillages({ cellId: loggedInUser?.cell?._id }));
@@ -49,7 +49,6 @@ export const ManageCategories = () => {
     }
     dispatch(GetCategories({}));
   }, [loggedInUser]);
-  console.log(categories);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity

@@ -12,7 +12,6 @@ export const UserDetails = () => {
       setUser(jwtDecode(res).user);
     });
   }, []);
-  console.log(loggedInUser);
   return (
     <View style={styles.container}>
       <View style={styles.card}>

@@ -22,8 +22,8 @@ export const Home = () => {
     getValueForToken().then((res) => {
       setUser(jwtDecode(res).user);
     });
-    dispatch(GetInquiries({}));
-  }, [user]);
+    // dispatch(GetInquiries({}));
+  }, []);
   // console.log(loggedInUser);
   if (loggedInUser?.role !== "user") {
     const Tab = createMaterialTopTabNavigator();

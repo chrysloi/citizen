@@ -30,17 +30,14 @@ export const LoginUser = (creds) => (dispatch) => {
     axios
       .post(`${BASE_URL}/users/login`, creds)
       .then((res) => {
-        console.log(res.data, "+++++++++++++");
         storeToken("token", res.data.data.token).then(() => {
-          console.log("Token stored");
           storeToken("userId", res.data.data.user._id).then(() => {
-            console.log("id stored");
             dispatch(Action(LOGIN_SUCESS, res.data.data));
           });
         });
       })
       .catch((err) => {
-        console.info(err);
+        console.error(err);
         dispatch(Action(LOGIN_FAILED, err));
       });
   } catch (error) {
@@ -77,7 +74,6 @@ export const Logout = () => (dispatch) => {
         dispatch(Action(LOGOUT_SUCCESS));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(Action(LOGOUT_FAILED));
       });
   } catch (error) {

@@ -38,9 +38,7 @@ export const GetInquiries =
   async (dispatch) => {
     try {
       dispatch(Action(GET_INQUIRIES));
-      const token = getValueForToken("token").then((res) => {
-        console.log(res);
-      });
+      const token = getValueForToken("token").then((res) => {});
       let query = "?";
       if (inquiryId) {
         query += `inquiryId=${inquiryId}&`;

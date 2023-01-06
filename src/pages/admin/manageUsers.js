@@ -54,10 +54,10 @@ export const ManageUsers = () => {
     getValueForToken().then((res) => {
       setUser(jwtDecode(res).user);
     });
-  }, [user]);
-  useEffect(() => {
     dispatch(GetUsers({}));
   }, []);
+  // useEffect(() => {
+  // }, []);
   useEffect(() => {
     if (viewUser?.cell) {
       setCellValue(viewUser?.cell);

@@ -20,9 +20,10 @@ import { TextField } from "../fields";
 import { InquiryCard } from "../userComponents/inquiryCard";
 import { GetComments } from "../../redux/actions/comment";
 import { ViewInquiry } from "../viewInquiry";
+import moment from "moment";
 
-export const ApprovedInquiries = () => {
-  const navigation = useNavigation();
+export const ApprovedInquiries = (navigation) => {
+  // const navigation = useNavigation();
   const dispatch = useDispatch();
   const [viewIquiry, setViewIquiry] = useState(false);
   const [inquiry, setInquiry] = useState({});
@@ -45,28 +46,63 @@ export const ApprovedInquiries = () => {
     if (user) {
       dispatch(GetInquiries({}));
     }
-  }, [user]);
+  }, []);
   useEffect(() => {
     if (inquiry !== {}) {
       dispatch(GetComments({ inquiryId: inquiry._id }));
     }
   }, [inquiry]);
-  console.log(inquiries);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <FlatList
           data={inquiries.filter((item) => item.status === "Resolved")}
           renderItem={({ item }) => (
-            <InquiryCard
-              inquiry={item}
+            <TouchableOpacity
+              style={styles.cardContainer}
               onPress={() => {
-                console.log("Pressed");
-                Promise.resolve(setInquiry(item)).then(() => {
-                  setViewIquiry(!viewIquiry);
-                });
+                navigation.navigate("ViewInquiry", inquiry);
+                // Promise.resolve(setInquiry(item)).then(() => {
+                //   setViewIquiry(true);
+                // });
               }}
-            />
+            >
+              <View>
+                <View style={styles.textgr}>
+                  <TextField
+                    value={item.title}
+                    fontSize={18}
+                    fontFamily="Poppins_500Medium"
+                    marginBottom={0}
+                  />
+                  <Text
+                    style={[
+                      styles.text,
+                      item.status === "Pending"
+                        ? { color: "#fab430" }
+                        : item.status === "Resolved"
+                        ? { color: "#20603D" }
+                        : { color: "red" },
+                    ]}
+                  >
+                    {item.status}
+                  </Text>
+                </View>
+                <TextField
+                  value={item.description}
+                  fontSize={15}
+                  marginBottom={0}
+                />
+                <View style={styles.textgr}>
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={[styles.text]}>Posted on </Text>
+                    <Text style={styles.text}>
+                      {moment(item.createdAt).format("DD MMM YYYY")}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item._id}
           // style={{ paddingBottom: vh * 1 }}
@@ -108,5 +144,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     minWidth: vw * 30,
+  },
+  cardContainer: {
+    marginHorizontal: vw * 2,
+    marginTop: 10,
+    paddingHorizontal: 12,
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  text: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+  },
+  textgr: {
+    marginTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: vw * 90,
   },
 });

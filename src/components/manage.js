@@ -34,7 +34,6 @@ export const Manage = () => {
       dispatch(GetCells({}));
     }
   }, [loggedInUser]);
-  console.log(cells);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity
