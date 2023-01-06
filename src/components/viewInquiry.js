@@ -97,7 +97,7 @@ export const ViewInquiry = (props) =>
           style={{
             paddingHorizontal: vw * 2,
             paddingTop: 2 * vh,
-            backgroundColor: "#fff",
+            // backgroundColor: "#fff",
             flex: 1,
           }}
         >
