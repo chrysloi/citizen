@@ -17,15 +17,17 @@ import { vh, vmax, vw } from "../../utils/units";
 import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import { Input } from "../../components/fields";
 import { LoginUser } from "../../redux/actions/users";
+import { useNavigation } from "@react-navigation/native";
 
 const initialData = {
   phone: "",
   password: "",
 };
 export const Login = (props) => {
-  const { navigation } = props;
+  // const { navigation } = props;
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { user, loading } = useSelector((state) => state.login);
+  const { user, loading, isLoggedIn } = useSelector((state) => state.login);
   const [creds, setCreds] = useState(initialData);
 
   const handlerChange = (key, value) => {
@@ -42,6 +44,9 @@ export const Login = (props) => {
     validate();
     dispatch(LoginUser(creds));
   };
+  if (user) {
+    navigation.navigate("Main");
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>

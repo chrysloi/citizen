@@ -22,11 +22,11 @@ import {
   getValueForToken,
   MAIN_COLOR,
   storeToken,
-} from "../../utils";
-import { vh, vmax, vw } from "../../utils/units";
-import { Input, TextField } from "../fields";
-import { GetCategories } from "../../redux/actions/category";
-import { CreateInquiry } from "../../redux/actions/inquiry";
+} from "../../../utils";
+import { vh, vmax, vw } from "../../../utils/units";
+import { Input, TextField } from "../../../components/fields";
+import { GetCategories } from "../../../redux/actions/category";
+import { CreateInquiry } from "../../../redux/actions/inquiry";
 
 const initialData = {
   title: "",
@@ -76,7 +76,7 @@ export const NewInquiry = (props) => {
         village: user?.village?._id,
       }));
     }
-  }, []);
+  }, [user]);
   useEffect(() => {
     if (categories[0]) {
       setCreds((prevCred) => ({
@@ -104,7 +104,7 @@ export const NewInquiry = (props) => {
               {
                 text: "OK",
                 onPress: () => {
-                  navigation.navigate("Main");
+                  navigation.goBack();
                   // dispatch(resetRegister());
                 },
               },

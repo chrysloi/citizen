@@ -2,13 +2,14 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React from "react";
 import { SafeAreaView, StatusBar } from "react-native";
 import { MAIN_COLOR } from "../../utils";
-import { ApprovedInquiries } from "./approvedInquiries";
-import { NonApprovedInquiries } from "./nonApprovedInquiries";
+import { ApprovedInquiries } from "./inquiries/approvedInquiries";
+import { NonApprovedInquiries } from "./inquiries/nonApprovedInquiries";
 
 export const Manage = () => {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Tab.Navigator
+      style={{ paddingTop: StatusBar.currentHeight }}
       screenOptions={{
         headerStyle: {
           backgroundColor: MAIN_COLOR,

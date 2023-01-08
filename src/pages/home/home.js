@@ -9,6 +9,7 @@ import {
   FlatList,
   Modal,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -27,15 +28,12 @@ export const UserHome = (props) => {
   const [viewIquiry, setViewIquiry] = useState(false);
   const dispatch = useDispatch();
   const {
-    login: { user },
     inquiries: { inquiries, loading },
   } = useSelector((state) => state);
 
   useEffect(() => {
-    if (user) {
-      dispatch(GetInquiries({}));
-    }
-  }, [user]);
+    dispatch(GetInquiries({}));
+  }, []);
   const onRefresh = () => {
     dispatch(GetInquiries({}));
   };
@@ -82,27 +80,12 @@ export const UserHome = (props) => {
           <FlatList
             data={inquiries}
             renderItem={({ item }) => (
-              <InquiryCard
-                inquiry={item}
-                onPress={() => {
-                  setViewIquiry(!viewIquiry);
-                }}
-              />
+              <InquiryCard inquiry={item} key={item._id} />
             )}
             keyExtractor={(item) => item._id}
           />
         )}
       </View>
-      <Modal visible={viewIquiry} transparent>
-        <View style={{ backgroundColor: "#fff" }}>
-          {/* <TextField
-            value={inquiry.title}
-            fontSize={18}
-            fontFamily="Poppins_500Medium"
-            marginBottom={0}
-          /> */}
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };

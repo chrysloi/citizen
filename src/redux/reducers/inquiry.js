@@ -11,6 +11,9 @@ import {
   DELETE_INQUIRY,
   DELETE_INQUIRY_SUCESS,
   DELETE_INQUIRY_FAILED,
+  RESOLVE_INQUIRY,
+  RESOLVE_INQUIRY_SUCESS,
+  RESOLVE_INQUIRY_FAILED,
 } from "../types";
 import { initialState } from "../../utils";
 
@@ -49,6 +52,24 @@ export const inquiriesReducer = (
         message: "Updated successfully",
       };
     case UPDATE_INQUIRY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    case RESOLVE_INQUIRY:
+      return {
+        ...state,
+        loading: true,
+      };
+    case RESOLVE_INQUIRY_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        message: "Resolved successfully",
+      };
+    case RESOLVE_INQUIRY_FAILED:
       return {
         ...state,
         loading: false,
@@ -99,6 +120,35 @@ export const createInquiryReducer = (
         ...state,
         loading: false,
         inquiry: {},
+        error: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const resolveInquiryReducer = (
+  state = { ...initialState, resolved: false, message: "" },
+  { type, payload }
+) => {
+  switch (type) {
+    case RESOLVE_INQUIRY:
+      return {
+        ...state,
+        loading: true,
+      };
+    case RESOLVE_INQUIRY_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        message: "Resolved successfully",
+        resolved: true,
+      };
+    case RESOLVE_INQUIRY_FAILED:
+      return {
+        ...state,
+        loading: false,
         error: payload,
       };
 

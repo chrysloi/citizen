@@ -14,6 +14,9 @@ import {
   DELETE_INQUIRY,
   DELETE_INQUIRY_SUCESS,
   DELETE_INQUIRY_FAILED,
+  RESOLVE_INQUIRY,
+  RESOLVE_INQUIRY_SUCESS,
+  RESOLVE_INQUIRY_FAILED,
 } from "../types";
 
 export const CreateInquiry = (inquiry) => async (dispatch) => {
@@ -86,6 +89,23 @@ export const UpdateInquiry = (inquiry) => async (dispatch) => {
   } catch (error) {
     console.error(error);
     dispatch(Action(UPDATE_INQUIRY_FAILED, err));
+  }
+};
+
+export const ResolveInquiry = (inquiryId) => async (dispatch) => {
+  try {
+    dispatch(Action(RESOLVE_INQUIRY));
+    axios
+      .patch(`${BASE_URL}/inquiry/resolve/${inquiryId}`)
+      .then((res) => {
+        dispatch(Action(RESOLVE_INQUIRY_SUCESS, res.data.data));
+      })
+      .catch((err) => {
+        dispatch(Action(RESOLVE_INQUIRY_FAILED, err));
+      });
+  } catch (error) {
+    console.error(error);
+    dispatch(Action(RESOLVE_INQUIRY_FAILED, err));
   }
 };
 

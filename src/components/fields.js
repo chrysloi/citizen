@@ -91,12 +91,12 @@ export const TextField = ({
   fontFamily = "Poppins_400Regular",
   marginBottom = 2 * vh,
   textColor = "#000",
-  onPress = () => {},
+  // onPress = () => {},
 }) => {
   return (
     <View>
       <Text
-        onPress={onPress}
+        // onPress={onPress}
         style={{
           alignItems: "center",
           fontFamily: fontFamily,

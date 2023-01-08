@@ -14,7 +14,7 @@ import * as icons from "@expo/vector-icons";
 import { getValueForToken, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
 import { TextField } from "../../components/fields";
-import { LevelCard } from "../../components/villageComponents/levelCard";
+// import { LevelCard } from "../../components/villageComponents/levelCard";
 import { GetCells, GetVillages, GetUsers } from "../../redux/actions";
 import { ManageUsers } from "./manageUsers";
 import { ManageCategories } from "./manageCategories";

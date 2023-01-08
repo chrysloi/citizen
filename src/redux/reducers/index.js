@@ -1,7 +1,11 @@
 import { combineReducers } from "redux";
 import { categoriesReducer } from "./category";
 import { cellsReducer } from "./cells";
-import { createInquiryReducer, inquiriesReducer } from "./inquiry";
+import {
+  createInquiryReducer,
+  inquiriesReducer,
+  resolveInquiryReducer,
+} from "./inquiry";
 import {
   loginUserReducer,
   logoutUserReducer,
@@ -21,5 +25,6 @@ export default combineReducers({
   categories: categoriesReducer,
   inquiries: inquiriesReducer,
   createInquiry: createInquiryReducer,
+  resolveInquiry: resolveInquiryReducer,
   comments: commentsReducer,
 });

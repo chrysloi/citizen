@@ -1,5 +1,5 @@
 import { StyleSheet, StatusBar } from "react-native";
-import { vw } from "../../../utils/units";
+import { vw } from "../../utils/units";
 
 export const GradientLoad = ["rgba(0,0,0,0.3)", "rgba(0,0,0,0.3)"];
 

@@ -1,9 +1,9 @@
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getValueForToken } from "../../../utils";
+import { getValueForToken } from "../../utils";
 import jwtDecode from "jwt-decode";
-import { vw } from "../../../utils/units";
+import { vw } from "../../utils/units";
 
 export const UserDetails = () => {
   const [loggedInUser, setUser] = React.useState({});

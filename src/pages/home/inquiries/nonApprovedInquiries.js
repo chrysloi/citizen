@@ -11,46 +11,52 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserId, getValueForToken, MAIN_COLOR } from "../../utils";
-import { vh, vw } from "../../utils/units";
-import { InquiryCard } from "../../components/inquiryCard";
+import { getUserId, getValueForToken, MAIN_COLOR } from "../../../utils";
+import { vh, vw } from "../../../utils/units";
+import { InquiryCard } from "../../../components/inquiryCard";
+import { TextField } from "../../../components/fields";
+import { GetInquiries } from "../../../redux/actions";
+import { UIActivityIndicator } from "react-native-indicators";
 // import { GetInquiries } from "../../redux/actions/inquiry";
 // import { TextField } from "../fields";
 // import { ViewInquiry } from "../viewInquiry";
 
 export const NonApprovedInquiries = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [viewIquiry, setViewIquiry] = useState(false);
   const [inquiry, setInquiry] = useState({});
   const {
-    inquiries: { inquiries },
+    inquiries: { inquiries, loading },
     login: { user },
   } = useSelector((state) => state);
 
+  const onRefresh = () => {
+    dispatch(GetInquiries({}));
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
+      <TouchableOpacity
+        style={[styles.btn, { marginTop: 15, marginHorizontal: 15 }]}
+        onPress={() => onRefresh()}
+      >
+        <TextField value={"Refresh"} marginBottom={0} textColor="#fff" />
+      </TouchableOpacity>
+      {loading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <UIActivityIndicator color={MAIN_COLOR} size={60} />
+        </View>
+      ) : (
         <FlatList
+          refreshing={loading}
           data={inquiries.filter((item) => item.status !== "Resolved")}
-          renderItem={({ item }) => (
-            <InquiryCard
-              inquiry={item}
-              onPress={() => {
-                Promise.resolve(setInquiry(item)).then(() => {
-                  setViewIquiry(!viewIquiry);
-                });
-              }}
-            />
-          )}
+          renderItem={({ item }) => <InquiryCard inquiry={item} />}
           keyExtractor={(item) => item._id}
         />
-      </View>
-      {/* <ViewInquiry
-        viewIquiry={viewIquiry}
-        setViewIquiry={setViewIquiry}
-        setInquiry={setInquiry}
-        inquiry={inquiry}
-      /> */}
+      )}
     </SafeAreaView>
   );
 };
@@ -73,5 +79,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "#fff",
+  },
+  btn: {
+    padding: 10,
+    backgroundColor: MAIN_COLOR,
+    marginBottom: 10,
+    alignItems: "center",
+    borderRadius: 10,
+    minWidth: vw * 30,
+    marginTop: 15,
+    marginHorizontal: 15,
   },
 });

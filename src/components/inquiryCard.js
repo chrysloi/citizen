@@ -14,7 +14,7 @@ import { MAIN_COLOR } from "../utils";
 import { vw } from "../utils/units";
 import { TextField } from "./fields";
 
-export const InquiryCard = ({ inquiry, onPress }) => {
+export const InquiryCard = ({ inquiry }) => {
   const navigation = useNavigation();
 
   return (
@@ -24,37 +24,36 @@ export const InquiryCard = ({ inquiry, onPress }) => {
         navigation.navigate("ViewInquiry", { inquiry });
       }}
     >
-      <View>
-        <View style={styles.textgr}>
-          <TextField
-            value={inquiry.title}
-            fontSize={18}
-            fontFamily="Poppins_500Medium"
-            marginBottom={0}
-          />
-          <Text
-            style={[
-              styles.text,
-              inquiry.status === "Pending"
-                ? { color: "#fab430" }
-                : inquiry.status === "Resolved"
-                ? { color: "#20603D" }
-                : { color: "red" },
-            ]}
-          >
-            {inquiry.status}
+      <View style={styles.textgr}>
+        <TextField
+          value={inquiry?.title}
+          fontSize={18}
+          fontFamily="Poppins_500Medium"
+          marginBottom={0}
+        />
+        <Text
+          style={[
+            styles.text,
+            inquiry?.status === "Pending"
+              ? { color: "#fab430" }
+              : inquiry?.status === "Resolved"
+              ? { color: "#20603D" }
+              : { color: "red" },
+          ]}
+        >
+          {inquiry?.status}
+        </Text>
+      </View>
+      {/* <TextField value={inquiry?.description} fontSize={15} marginBottom={0} /> */}
+      <View style={styles.textgr}>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={[styles.text]}>Posted on </Text>
+          <Text style={styles.text}>
+            {moment(inquiry?.createdAt).format("DD MMM YYYY")}
           </Text>
         </View>
-        <TextField value={inquiry.description} fontSize={15} marginBottom={0} />
-        <View style={styles.textgr}>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.text]}>Posted on </Text>
-            <Text style={styles.text}>
-              {moment(inquiry.createdAt).format("DD MMM YYYY")}
-            </Text>
-          </View>
-        </View>
       </View>
+      {/* </View> */}
     </TouchableOpacity>
   );
 };
@@ -66,9 +65,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: "#fff",
     paddingVertical: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
     borderRadius: 10,
   },
   text: {

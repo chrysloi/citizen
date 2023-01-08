@@ -1,7 +1,7 @@
 import { Manage } from "./home/manage";
 import { UserHome } from "./home/home";
-import { ViewInquiry } from "./home/viewInquiry";
-import { NewInquiry } from "./home/newInquiry";
+import { ViewInquiry } from "./home/inquiries/viewInquiry";
+import { NewInquiry } from "./home/inquiries/newInquiry";
 import { Profile } from "./profile/profile";
 import { Login } from "./auth/login";
 import { Register } from "./auth/register";

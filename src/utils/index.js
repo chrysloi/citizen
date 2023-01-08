@@ -1,7 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 
 export const MAIN_COLOR = "#00A1DE";
-export const BASE_URL = "https://citizen.onrender.com/api";
+export const BASE_URL = "http://192.168.1.73:2022/api";
 export const Action = (type, payload) => ({
   type,
   payload,

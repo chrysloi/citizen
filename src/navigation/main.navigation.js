@@ -5,7 +5,7 @@ import * as icons from "@expo/vector-icons";
 import { getValueForToken, MAIN_COLOR } from "../utils";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { Homes } from "../components.js/homes";
+// import { Homes } from "../components.js/homes";
 
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +41,7 @@ export const MainNavigator = () => {
       <Tab.Screen
         name="Home"
         component={
-          user?.user?.role === user ? Screens.UserHome : Screens.Manage
+          user?.user?.role === "user" ? Screens.UserHome : Screens.Manage
         }
         options={{
           tabBarIcon: ({ size, color }) => {
