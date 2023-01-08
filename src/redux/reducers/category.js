@@ -15,7 +15,7 @@ import {
 import { initialState } from "../../utils";
 
 export const categoriesReducer = (
-  state = { ...initialState, categories: [], message: "" },
+  state = { ...initialState, categories: [], message: "", isCreated: false },
   { type, payload }
 ) => {
   switch (type) {
@@ -47,6 +47,7 @@ export const categoriesReducer = (
         ...state,
         loading: false,
         message: "Created successfully",
+        isCreated: true,
       };
     case CREATE_CATEGORY_FAILED:
       return {

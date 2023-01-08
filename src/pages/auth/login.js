@@ -44,9 +44,9 @@ export const Login = (props) => {
     validate();
     dispatch(LoginUser(creds));
   };
-  if (user) {
-    navigation.navigate("Main");
-  }
+  // if (user) {
+  //   navigation.navigate("Main");
+  // }
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>

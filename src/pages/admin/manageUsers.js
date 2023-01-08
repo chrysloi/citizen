@@ -23,9 +23,11 @@ import {
   GetUsers,
   UpdateUser,
 } from "../../redux/actions";
+import { useNavigation } from "@react-navigation/native";
 // import { LevelCard } from "../../components/villageComponents/levelCard";
 
 export const ManageUsers = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loggedInUser, setUser] = useState();
   const [edit, setEdit] = useState(false);
@@ -71,7 +73,7 @@ export const ManageUsers = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity
         style={[Style.btn, { marginTop: 15, marginHorizontal: 15 }]}
-        // onPress={() => navigation.navigate("AddUser")}
+        onPress={() => navigation.navigate("NewUser")}
       >
         <TextField value={"Add user"} marginBottom={0} textColor="#fff" />
       </TouchableOpacity>

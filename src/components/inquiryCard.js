@@ -44,7 +44,7 @@ export const InquiryCard = ({ inquiry }) => {
           {inquiry?.status}
         </Text>
       </View>
-      {/* <TextField value={inquiry?.description} fontSize={15} marginBottom={0} /> */}
+      <TextField value={inquiry?.description} fontSize={15} marginBottom={0} />
       <View style={styles.textgr}>
         <View style={{ flexDirection: "row" }}>
           <Text style={[styles.text]}>Posted on </Text>

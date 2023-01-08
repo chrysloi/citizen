@@ -135,8 +135,6 @@ export const NewInquiry = (props) => {
       ]);
     }
   };
-  if (inquiry !== {}) {
-  }
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>

@@ -15,7 +15,7 @@ import {
 } from "../types";
 
 export const commentsReducer = (
-  state = { ...initialState, comments: [], message: {} },
+  state = { ...initialState, comments: [], message: {}, isCommented: false },
   { type, payload }
 ) => {
   switch (type) {
@@ -47,6 +47,7 @@ export const commentsReducer = (
         ...state,
         loading: false,
         message: "Comment created successfully",
+        isCommented: true,
       };
     case CREATE_COMMENT_FAILED:
       return {

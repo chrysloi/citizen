@@ -42,7 +42,7 @@ export const Profile = (props) => {
             marginBottom={0}
           />
           {/* <Text style={[Style.name]}>{loggedInUser?.name}</Text> */}
-          <Text style={Style.role}>User</Text>
+          <Text style={Style.role}>{loggedInUser?.role}</Text>
         </View>
         <TouchableOpacity
           style={{

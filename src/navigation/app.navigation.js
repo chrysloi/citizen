@@ -27,14 +27,19 @@ export const AppNavigator = () => {
         headerStatusBarHeight: 30,
       }}
     >
-      <Stack.Screen name="Login" component={Screens.Login} />
-      <Stack.Screen name="Register" component={Screens.Register} />
-      {user && (
+      {!isLoggedIn ? (
+        <>
+          <Stack.Screen name="Login" component={Screens.Login} />
+          <Stack.Screen name="Register" component={Screens.Register} />
+        </>
+      ) : (
         <>
           <Stack.Screen name="Main" component={MainNavigator} />
           <Stack.Screen name="UserDetails" component={Screens.UserDetails} />
           <Stack.Screen name="NewInquiry" component={Screens.NewInquiry} />
           <Stack.Screen name="ViewInquiry" component={Screens.ViewInquiry} />
+          <Stack.Screen name="NewCategory" component={Screens.NewCategory} />
+          <Stack.Screen name="NewUser" component={Screens.NewUser} />
         </>
       )}
     </Stack.Navigator>

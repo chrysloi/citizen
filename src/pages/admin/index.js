@@ -18,8 +18,9 @@ import { TextField } from "../../components/fields";
 import { GetCells, GetVillages, GetUsers } from "../../redux/actions";
 import { ManageUsers } from "./manageUsers";
 import { ManageCategories } from "./manageCategories";
+import { Statistics } from "./statistics";
 
-const adminOptions = ["Manage Categories", "Manage users"];
+const adminOptions = ["Manage Categories", "Manage users", "Statistics"];
 
 export const AdminPanel = () => {
   const dispatch = useDispatch();
@@ -31,17 +32,6 @@ export const AdminPanel = () => {
     Promise.resolve(setOption(opt)).then((res) => {
       setModal(!showModal);
     });
-  //   const {
-  //     login: { user },
-  //     users: { users },
-  //     villages: { villages },
-  //     cells: { cells },
-  //   } = useSelector((state) => state);
-  //   useEffect(() => {
-  //     getValueForToken().then((res) => {
-  //       setUser(jwtDecode(res).user);
-  //     });
-  //   }, [user]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -59,17 +49,17 @@ export const AdminPanel = () => {
           <View style={Style.modal}>
             {adminOptions.map((option) => {
               return (
-                <TextField
-                  value={option}
-                  onPress={() => handlerOptions(option)}
-                />
-                // <Text onPress={() => handlerOptions(option)}>{option}</Text>
+                <TouchableOpacity onPress={() => handlerOptions(option)}>
+                  <TextField value={option} />
+                </TouchableOpacity>
               );
             })}
           </View>
         )}
       </View>
-      {option === "Manage Categories" ? <ManageCategories /> : <ManageUsers />}
+      {option === "Manage Categories" && <ManageCategories />}
+      {option === "Manage users" && <ManageUsers />}
+      {option === "Statistics" && <Statistics />}
     </SafeAreaView>
   );
 };

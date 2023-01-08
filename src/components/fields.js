@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { vh, vmax, vw } from "../utils/units";
 
 export const Input = ({
@@ -15,6 +15,7 @@ export const Input = ({
   editable = true,
   width = "100%",
   marginBottom = 2 * vh,
+  icon = null,
 }) => {
   return (
     <View style={{}}>
@@ -61,25 +62,36 @@ export const Input = ({
           editable={editable}
         />
       ) : (
-        <TextInput
-          placeholder={placeholder}
-          placeholderTextColor={"#c9c9c9"}
-          value={value}
-          keyboardType={keyboardType}
-          onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
-          style={{
-            flexDirection: "row",
-            borderWidth: 1,
-            borderRadius: 7,
-            padding: 1 * vmax,
-            alignItems: "center",
-            fontFamily: "Poppins_400Regular",
-            marginBottom: marginBottom,
-            width: width,
-          }}
-          editable={editable}
-        />
+        <>
+          <TextInput
+            placeholder={placeholder}
+            placeholderTextColor={"#c9c9c9"}
+            value={value}
+            keyboardType={keyboardType}
+            onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry}
+            style={{
+              flexDirection: "row",
+              borderWidth: 1,
+              borderRadius: 7,
+              padding: 1 * vmax,
+              alignItems: "center",
+              fontFamily: "Poppins_400Regular",
+              marginBottom: marginBottom,
+              width: width,
+            }}
+            editable={editable}
+          />
+          <View
+            style={{
+              position: "absolute",
+              bottom: 22,
+              right: 10,
+            }}
+          >
+            {icon}
+          </View>
+        </>
       )}
     </View>
   );
@@ -91,12 +103,10 @@ export const TextField = ({
   fontFamily = "Poppins_400Regular",
   marginBottom = 2 * vh,
   textColor = "#000",
-  // onPress = () => {},
 }) => {
   return (
     <View>
       <Text
-        // onPress={onPress}
         style={{
           alignItems: "center",
           fontFamily: fontFamily,

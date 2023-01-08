@@ -96,7 +96,7 @@ export const ResolveInquiry = (inquiryId) => async (dispatch) => {
   try {
     dispatch(Action(RESOLVE_INQUIRY));
     axios
-      .patch(`${BASE_URL}/inquiry/resolve/${inquiryId}`)
+      .patch(`${BASE_URL}/inquiry/${inquiryId}/resolve`)
       .then((res) => {
         dispatch(Action(RESOLVE_INQUIRY_SUCESS, res.data.data));
       })

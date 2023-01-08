@@ -7,6 +7,8 @@ import { Login } from "./auth/login";
 import { Register } from "./auth/register";
 import { UserDetails } from "./profile/userDetails";
 import { AdminPanel } from "./admin";
+import { NewCategory } from "./admin/newCategory";
+import { NewUser } from "./admin/newUser";
 
 export const Screens = {
   Login,
@@ -18,4 +20,6 @@ export const Screens = {
   NewInquiry,
   UserDetails,
   AdminPanel,
+  NewCategory,
+  NewUser,
 };

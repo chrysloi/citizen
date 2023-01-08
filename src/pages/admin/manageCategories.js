@@ -21,8 +21,10 @@ import {
   DeleteCategory,
   GetCategories,
 } from "../../redux/actions";
+import { useNavigation } from "@react-navigation/native";
 
 export const ManageCategories = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loggedInUser, setUser] = useState();
   const {
@@ -53,7 +55,7 @@ export const ManageCategories = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity
         style={[Style.btn, { marginTop: 15, marginHorizontal: 15 }]}
-        // onPress={() => navigation.navigate("AddUser")}
+        onPress={() => navigation.navigate("NewCategory")}
       >
         <TextField value={"Add Category"} marginBottom={0} textColor="#fff" />
       </TouchableOpacity>

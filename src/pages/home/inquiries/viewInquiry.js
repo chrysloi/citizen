@@ -24,10 +24,10 @@ const initialData = {
 export const ViewInquiry = (props) => {
   const dispatch = useDispatch();
   const { navigation } = props;
-  const [data, setData] = useState("");
+  const [data, setData] = useState({ comment: "" });
   const { inquiry } = props.route.params;
   const {
-    comments: { comments, loading },
+    comments: { comments, loading, isCommented },
     login: { user },
   } = useSelector((state) => state);
 
@@ -51,8 +51,18 @@ export const ViewInquiry = (props) => {
 
   const createComment = () => {
     validate();
-    dispatch(CreateComment({ inquiryId: inquiry._id, data: data }));
+    Promise.resolve(
+      dispatch(CreateComment({ inquiryId: inquiry._id, data: data }))
+    ).then(() => {
+      setData({ comment: "" });
+      dispatch(GetComments({ inquiryId: inquiry._id }));
+    });
   };
+
+  // if (isCommented) {
+  //   setData("");
+  //   dispatch(GetComments({ inquiryId: inquiry._id }));
+  // }
 
   console.log(comments);
   return (
@@ -101,7 +111,7 @@ export const ViewInquiry = (props) => {
           flex: 1,
         }}
       >
-        {/* <TextField value={inquiry.description} fontSize={16} /> */}
+        <TextField value={inquiry.description} fontSize={16} />
         <View
           style={{
             flexDirection: "row",
@@ -115,12 +125,12 @@ export const ViewInquiry = (props) => {
             onChangeText={(text) => {
               setData({ ...data, comment: text });
             }}
+            value={data.comment}
             width="195%"
           />
           <TouchableOpacity
             style={{
               backgroundColor: MAIN_COLOR,
-              // width: 38 * vw,
               paddingHorizontal: 2 * vw,
               borderRadius: 10,
               height: 7 * vh,
@@ -134,31 +144,33 @@ export const ViewInquiry = (props) => {
             <TextField value={"Comment"} marginBottom={0} textColor="#fff" />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-around",
-          }}
-        >
-          <TouchableOpacity style={[styles.btn]} onPress={handleResolve}>
-            <TextField
-              value={"Mark resolved"}
-              marginBottom={0}
-              textColor="#fff"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.btn]}
-            // onPress={() => navigation.navigate("AddUser")}
+        {inquiry?.status !== "Resolved" && (
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-around",
+            }}
           >
-            <TextField
-              value={"Request support"}
-              marginBottom={0}
-              textColor="#fff"
-            />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity style={[styles.btn]} onPress={handleResolve}>
+              <TextField
+                value={"Mark resolved"}
+                marginBottom={0}
+                textColor="#fff"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btn]}
+              // onPress={() => navigation.navigate("AddUser")}
+            >
+              <TextField
+                value={"Request support"}
+                marginBottom={0}
+                textColor="#fff"
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <View
           style={{
             // backgroundColor: "#fff",
