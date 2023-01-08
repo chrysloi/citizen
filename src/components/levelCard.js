@@ -7,12 +7,11 @@ import {
   View,
 } from "react-native";
 import React from "react";
-// import { MAIN_COLOR, WIDTH }
 import { useNavigation } from "@react-navigation/native";
-import { MAIN_COLOR } from "../../utils";
-import { vw } from "../../utils/units";
-import { TextField } from "../fields";
 import moment from "moment";
+import { MAIN_COLOR } from "../utils/index";
+import { vw } from "../utils/units";
+import { TextField } from "./fields";
 
 export const LevelCard = ({ data }) => {
   const navigation = useNavigation();

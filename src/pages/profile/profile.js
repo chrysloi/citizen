@@ -8,18 +8,18 @@ import {
   Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Style } from "./style";
-import { ProfileOpt } from "../../../components/profileOpt";
 import * as icons from "@expo/vector-icons";
-import { getValueForToken, MAIN_COLOR } from "../../../utils/";
-import { TextField } from "../../../components/fields";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { Logout } from "../../../redux/actions/users";
 import jwtDecode from "jwt-decode";
+import { Style } from "./style";
+import { ProfileOpt } from "../../components/profileOpt";
+import { getValueForToken, MAIN_COLOR } from "../../utils";
+import { TextField } from "../../components/fields";
+import { Logout } from "../../redux/actions/users";
 
-export const Profile = () => {
-  const navigation = useNavigation();
+export const Profile = (props) => {
+  const { navigation } = props;
   const dispatch = useDispatch();
   const [loggedInUser, setUser] = useState();
 

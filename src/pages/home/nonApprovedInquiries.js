@@ -11,12 +11,12 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { GetInquiries } from "../../redux/actions/inquiry";
 import { getUserId, getValueForToken, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
-import { TextField } from "../fields";
-import { InquiryCard } from "../userComponents/inquiryCard";
-import { ViewInquiry } from "../viewInquiry";
+import { InquiryCard } from "../../components/inquiryCard";
+// import { GetInquiries } from "../../redux/actions/inquiry";
+// import { TextField } from "../fields";
+// import { ViewInquiry } from "../viewInquiry";
 
 export const NonApprovedInquiries = () => {
   const navigation = useNavigation();
@@ -45,12 +45,12 @@ export const NonApprovedInquiries = () => {
           keyExtractor={(item) => item._id}
         />
       </View>
-      <ViewInquiry
+      {/* <ViewInquiry
         viewIquiry={viewIquiry}
         setViewIquiry={setViewIquiry}
         setInquiry={setInquiry}
         inquiry={inquiry}
-      />
+      /> */}
     </SafeAreaView>
   );
 };

@@ -12,18 +12,18 @@ import {
 } from "react-native";
 import * as icons from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Picker } from "@react-native-picker/picker";
 import { getValueForToken, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
 import { Input, TextField } from "../../components/fields";
-import { LevelCard } from "../../components/villageComponents/levelCard";
 import {
   GetCells,
   GetVillages,
   GetUsers,
   UpdateUser,
 } from "../../redux/actions";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Picker } from "@react-native-picker/picker";
+// import { LevelCard } from "../../components/villageComponents/levelCard";
 
 export const ManageUsers = () => {
   const dispatch = useDispatch();

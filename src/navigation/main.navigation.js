@@ -1,20 +1,22 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useSelector } from "react-redux";
 import { Screens } from "../pages";
 import * as icons from "@expo/vector-icons";
 import { getValueForToken, MAIN_COLOR } from "../utils";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { Homes } from "../components/homes";
+import { Homes } from "../components.js/homes";
 
 const Tab = createBottomTabNavigator();
 
 export const MainNavigator = () => {
-  const [user, setUser] = useState();
-  useEffect(() => {
-    getValueForToken().then((res) => {
-      setUser(jwtDecode(res).user);
-    });
-  }, []);
+  const { isLoggedIn, user } = useSelector((state) => state.login);
+  // const [user, setUser] = useState();
+  // useEffect(() => {
+  //   getValueForToken().then((res) => {
+  //     setUser(jwtDecode(res).user);
+  //   });
+  // }, []);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -38,14 +40,16 @@ export const MainNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Screens.Home}
+        component={
+          user?.user?.role === user ? Screens.UserHome : Screens.Manage
+        }
         options={{
           tabBarIcon: ({ size, color }) => {
             return <icons.FontAwesome5 name="home" color={color} size={size} />;
           },
         }}
       />
-      {user?.role === "admin" && (
+      {user?.user?.role === "admin" && (
         <Tab.Screen
           name="Admin"
           component={Screens.AdminPanel}

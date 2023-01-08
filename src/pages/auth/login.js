@@ -10,18 +10,13 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import * as icons from "@expo/vector-icons";
-import { vh, vmax, vw } from "../../utils/units";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import { firebase } from "../../utils/firebase";
-import { UIActivityIndicator } from "react-native-indicators";
-import { ImagePicker } from "expo";
-import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
-import axios from "axios";
-import { Input } from "../../components/fields";
 import { useDispatch, useSelector } from "react-redux";
+import { UIActivityIndicator } from "react-native-indicators";
+import { vh, vmax, vw } from "../../utils/units";
+import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
+import { Input } from "../../components/fields";
 import { LoginUser } from "../../redux/actions/users";
-// import { Login } from "../../redux/actions/auth";
 
 const initialData = {
   phone: "",
@@ -31,7 +26,6 @@ export const Login = (props) => {
   const { navigation } = props;
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.login);
-  // const [loading, setLoading] = useState(false);
   const [creds, setCreds] = useState(initialData);
 
   const handlerChange = (key, value) => {

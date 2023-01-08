@@ -16,10 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetInquiries } from "../../redux/actions/inquiry";
 import { getUserId, getValueForToken, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
-import { TextField } from "../fields";
-import { InquiryCard } from "../userComponents/inquiryCard";
+import { TextField } from "../../components/fields";
+// import { InquiryCard } from "../userComponents/inquiryCard";
 import { GetComments } from "../../redux/actions/comment";
-import { ViewInquiry } from "../viewInquiry";
+// import { ViewInquiry } from "../viewInquiry";
 import moment from "moment";
 
 export const ApprovedInquiries = (navigation) => {
@@ -108,12 +108,12 @@ export const ApprovedInquiries = (navigation) => {
           // style={{ paddingBottom: vh * 1 }}
         />
       </View>
-      <ViewInquiry
+      {/* <ViewInquiry
         viewIquiry={viewIquiry}
         setViewIquiry={setViewIquiry}
         setInquiry={setInquiry}
         inquiry={inquiry}
-      />
+      /> */}
     </SafeAreaView>
   );
 };

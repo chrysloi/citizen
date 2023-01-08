@@ -8,11 +8,11 @@ import {
   View,
 } from "react-native";
 import * as icons from "@expo/vector-icons";
-import { vh, vw } from "../utils/units";
-import { Input, TextField } from "./fields";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateComment, GetComments } from "../redux/actions/comment";
-import { MAIN_COLOR } from "../utils";
+import { vh, vw } from "../../utils/units";
+import { Input, TextField } from "../../components/fields";
+import { CreateComment, GetComments } from "../../redux/actions/comment";
+import { MAIN_COLOR } from "../../utils";
 
 const initialData = {
   user: "",

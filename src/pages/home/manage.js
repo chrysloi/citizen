@@ -1,11 +1,11 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React from "react";
 import { SafeAreaView, StatusBar } from "react-native";
-import { MAIN_COLOR } from "../utils";
-import { ApprovedInquiries } from "./villageComponents/approvedInquiries";
-import { NonApprovedInquiries } from "./villageComponents/nonApprovedInquiries";
+import { MAIN_COLOR } from "../../utils";
+import { ApprovedInquiries } from "./approvedInquiries";
+import { NonApprovedInquiries } from "./nonApprovedInquiries";
 
-export const Homes = () => {
+export const Manage = () => {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Tab.Navigator
@@ -30,12 +30,12 @@ export const Homes = () => {
       }}
     >
       <Tab.Screen
-        name="OfficerReport"
+        name="ApprovedInquiries"
         component={ApprovedInquiries}
         options={{ tabBarLabel: "Resolved inquiries" }}
       />
       <Tab.Screen
-        name="FarmerReport"
+        name="NonApprovedInquiries"
         component={NonApprovedInquiries}
         options={{ tabBarLabel: "Pending inquiries" }}
       />

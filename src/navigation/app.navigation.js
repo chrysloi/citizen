@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NewInquiry } from "../components/userComponents/newInquiry";
-import { ViewInquiry } from "../components/viewInquiry";
+import { NewInquiry } from "../components.js/userComponents/newInquiry";
+import { ViewInquiry } from "../components.js/viewInquiry";
 import { Screens } from "../pages";
 import { getValueForToken } from "../utils";
 import { MainNavigator } from "./main.navigation";
@@ -27,19 +27,12 @@ export const AppNavigator = () => {
         headerStatusBarHeight: 30,
       }}
     >
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen name="Main" component={MainNavigator} />
-          <Stack.Screen name="UserDetails" component={Screens.UserDetails} />
-          <Stack.Screen name="NewInquiry" component={NewInquiry} />
-          <Stack.Screen name="ViewInquiry" component={ViewInquiry} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={Screens.Login} />
-          <Stack.Screen name="Register" component={Screens.Register} />
-        </>
-      )}
+      <Stack.Screen name="Login" component={Screens.Login} />
+      <Stack.Screen name="Register" component={Screens.Register} />
+      <Stack.Screen name="Main" component={MainNavigator} />
+      <Stack.Screen name="UserDetails" component={Screens.UserDetails} />
+      <Stack.Screen name="NewInquiry" component={Screens.NewInquiry} />
+      <Stack.Screen name="ViewInquiry" component={Screens.ViewInquiry} />
     </Stack.Navigator>
   );
 };

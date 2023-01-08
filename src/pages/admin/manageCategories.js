@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getValueForToken, MAIN_COLOR } from "../../utils";
 import { vw } from "../../utils/units";
 import { TextField } from "../../components/fields";
-import { LevelCard } from "../../components/villageComponents/levelCard";
+// import { LevelCard } from "../../components/villageComponents/levelCard";
 import {
   GetCells,
   GetVillages,

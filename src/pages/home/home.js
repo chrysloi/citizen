@@ -19,11 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetInquiries } from "../../redux/actions/inquiry";
 import { getUserId, MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
-import { TextField } from "../fields";
-import { InquiryCard } from "./inquiryCard";
+import { TextField } from "../../components/fields";
+import { InquiryCard } from "../../components/inquiryCard";
 
-export const UserHome = () => {
-  const navigation = useNavigation();
+export const UserHome = (props) => {
+  const { navigation } = props;
   const [viewIquiry, setViewIquiry] = useState(false);
   const dispatch = useDispatch();
   const {

@@ -10,21 +10,20 @@ import {
   Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { vh, vmax, vw } from "../../utils/units";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { UIActivityIndicator } from "react-native-indicators";
-import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { vh, vmax, vw } from "../../utils/units";
+import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import {
   GetCells,
   GetVillages,
   RegisterUser,
   resetRegister,
 } from "../../redux/actions";
-import axios from "axios";
 import { Input } from "../../components/fields";
-import { useNavigation } from "@react-navigation/native";
 
 const initialData = {
   name: "",
@@ -36,7 +35,7 @@ const initialData = {
 };
 
 export const Register = (props) => {
-  const navigation = useNavigation();
+  const { navigation } = props;
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
@@ -68,7 +67,7 @@ export const Register = (props) => {
 
   const handleRegister = () => {
     validate();
-    Promise.resolve(dispatch(RegisterUser(creds))).then((res) => {});
+    dispatch(RegisterUser(creds));
   };
   if (isRegistered) {
     Alert.alert("Success", "You've Registered", [

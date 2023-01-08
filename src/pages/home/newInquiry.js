@@ -13,20 +13,20 @@ import React, { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { UIActivityIndicator } from "react-native-indicators";
+import { useDispatch, useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import {
   BASE_URL,
   getValueForToken,
   MAIN_COLOR,
   storeToken,
 } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { vh, vmax, vw } from "../../utils/units";
 import { Input, TextField } from "../fields";
 import { GetCategories } from "../../redux/actions/category";
-import jwtDecode from "jwt-decode";
 import { CreateInquiry } from "../../redux/actions/inquiry";
-import { useNavigation } from "@react-navigation/native";
 
 const initialData = {
   title: "",
@@ -38,7 +38,7 @@ const initialData = {
 };
 
 export const NewInquiry = (props) => {
-  const navigation = useNavigation();
+  const { navigation } = props;
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [done, setDone] = useState(false);
