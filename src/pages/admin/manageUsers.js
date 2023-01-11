@@ -9,6 +9,7 @@ import {
   StatusBar,
   View,
   Modal,
+  Alert,
 } from "react-native";
 import * as icons from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +26,8 @@ import {
 } from "../../redux/actions";
 import { useNavigation } from "@react-navigation/native";
 // import { LevelCard } from "../../components/villageComponents/levelCard";
+
+const roles = ["user", "village", "cell", "admin"];
 
 export const ManageUsers = () => {
   const navigation = useNavigation();
@@ -61,13 +64,11 @@ export const ManageUsers = () => {
   // useEffect(() => {
   // }, []);
   useEffect(() => {
-    if (viewUser?.cell) {
+    if (viewUser) {
       setCellValue(viewUser?.cell);
-    }
-    if (viewUser?.village) {
       setVillageValue(viewUser?.village);
     }
-  }, [viewUser]);
+  }, []);
   //   console.log(creds);
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -136,15 +137,14 @@ export const ManageUsers = () => {
                 fontFamily="Poppins_500Medium"
               />
               {edit ? (
-                <TextField
-                  value="Done"
-                  marginBottom={0}
-                  fontSize={18}
+                <TouchableOpacity
                   onPress={() => {
                     setEdit(!edit);
                     dispatch(UpdateUser(viewUser));
                   }}
-                />
+                >
+                  <TextField value="Done" marginBottom={0} fontSize={18} />
+                </TouchableOpacity>
               ) : (
                 <icons.Feather
                   name="edit"
@@ -177,8 +177,21 @@ export const ManageUsers = () => {
             <Input
               editable={edit}
               label="User Role"
-              value={viewUser?.role}
-              onChangeText={(value) => handlerChange("role", value)}
+              // value={}
+              picker={true}
+              toPicker={
+                <Picker
+                  enabled={edit}
+                  selectedValue={viewUser?.role}
+                  onValueChange={(itemValue) => {
+                    handlerChange("role", itemValue);
+                  }}
+                >
+                  {roles.map((role, idx) => (
+                    <Picker.Item label={role} value={role} key={idx} />
+                  ))}
+                </Picker>
+              }
             />
             <Input
               label="Cell"
@@ -190,7 +203,6 @@ export const ManageUsers = () => {
                   onValueChange={(itemValue, itemIndex) => {
                     setCellValue(itemValue);
                     handlerChange("cell", itemValue?._id);
-                    dispatch(GetVillages({ cellId: itemValue?._id }));
                   }}
                 >
                   {cells.map((cell, idx) => (
@@ -211,21 +223,44 @@ export const ManageUsers = () => {
                     setVillageValue(itemValue);
                   }}
                 >
-                  {villages.map((village, idx) => (
-                    <Picker.Item
-                      label={village.name}
-                      value={village}
-                      key={idx}
-                    />
-                  ))}
+                  {villages
+                    .filter((village) => village.cell?._id === cellValue?._id)
+                    .map((village, idx) => (
+                      <Picker.Item
+                        label={village.name}
+                        value={village}
+                        key={idx}
+                      />
+                    ))}
                 </Picker>
               }
             />
             <TouchableOpacity
               style={[Style.btn, { marginTop: 15, marginHorizontal: 15 }]}
               onPress={() => {
-                setUserModal(!userModal);
-                setViewUser({});
+                if (edit) {
+                  Alert.alert(
+                    undefined,
+                    "Do you want to close without saving?",
+                    [
+                      {
+                        text: "Yes",
+                        onPress: () => {
+                          setEdit(!edit);
+                          setUserModal(!userModal);
+                          setViewUser({});
+                        },
+                      },
+                      {
+                        text: "No",
+                        style: "cancel",
+                      },
+                    ]
+                  );
+                } else {
+                  setUserModal(!userModal);
+                  setViewUser({});
+                }
               }}
             >
               <TextField value={"Close"} marginBottom={0} textColor="#fff" />

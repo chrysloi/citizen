@@ -100,7 +100,7 @@ export const NewInquiry = (props) => {
         .post(`${BASE_URL}/inquiry`, creds)
         .then((res) => {
           if (res.status === 201) {
-            Alert.alert("Success", "Inquiry sent successfully", [
+            Alert.alert(undefined, "Inquiry sent successfully", [
               {
                 text: "OK",
                 onPress: () => {
@@ -113,7 +113,7 @@ export const NewInquiry = (props) => {
         })
         .catch((err) => {
           console.error(err);
-          Alert.alert("Failed", "Error accorrured", [
+          Alert.alert(undefined, "Error accorrured", [
             {
               text: "OK",
               onPress: () => {
@@ -124,7 +124,7 @@ export const NewInquiry = (props) => {
           ]);
         });
     } catch (error) {
-      Alert.alert("Failed", "Error accorrured", [
+      Alert.alert(undefined, "Error accorrured", [
         {
           text: "OK",
           onPress: () => {

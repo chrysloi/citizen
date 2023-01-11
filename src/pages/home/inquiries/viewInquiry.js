@@ -64,7 +64,7 @@ export const ViewInquiry = (props) => {
   //   dispatch(GetComments({ inquiryId: inquiry._id }));
   // }
 
-  console.log(comments);
+  console.log(inquiry);
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -144,7 +144,7 @@ export const ViewInquiry = (props) => {
             <TextField value={"Comment"} marginBottom={0} textColor="#fff" />
           </TouchableOpacity>
         </View>
-        {inquiry?.status !== "Resolved" && (
+        {user.user?.role !== "user" && inquiry?.status !== "Resolved" && (
           <View
             style={{
               flexDirection: "row",
@@ -152,23 +152,31 @@ export const ViewInquiry = (props) => {
               justifyContent: "space-around",
             }}
           >
-            <TouchableOpacity style={[styles.btn]} onPress={handleResolve}>
-              <TextField
-                value={"Mark resolved"}
-                marginBottom={0}
-                textColor="#fff"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.btn]}
-              // onPress={() => navigation.navigate("AddUser")}
-            >
-              <TextField
-                value={"Request support"}
-                marginBottom={0}
-                textColor="#fff"
-              />
-            </TouchableOpacity>
+            {!inquiry.support && (
+              <TouchableOpacity
+                style={[styles.btn]}
+                onPress={handleResolve}
+                disabled={!inquiry.support}
+              >
+                <TextField
+                  value={"Mark resolved"}
+                  marginBottom={0}
+                  textColor="#fff"
+                />
+              </TouchableOpacity>
+            )}
+            {inquiry.support && (
+              <TouchableOpacity
+                style={[styles.btn]}
+                // onPress={() => navigation.navigate("AddUser")}
+              >
+                <TextField
+                  value={"Request support"}
+                  marginBottom={0}
+                  textColor="#fff"
+                />
+              </TouchableOpacity>
+            )}
           </View>
         )}
         <View

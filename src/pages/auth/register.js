@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
+import * as icons from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { UIActivityIndicator } from "react-native-indicators";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,6 +40,7 @@ export const Register = (props) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
+  const [viewPassword, setViewPassword] = useState(true);
   const [creds, setCreds] = useState(initialData);
   const [cellValue, setCellValue] = useState();
   const [villageValue, setVillageValue] = useState();
@@ -65,12 +67,16 @@ export const Register = (props) => {
     if (creds.cell === "") return alert("Cell is required");
   };
 
+  const togglePassword = () => {
+    setViewPassword(!viewPassword);
+  };
+
   const handleRegister = () => {
     validate();
     dispatch(RegisterUser(creds));
   };
   if (isRegistered) {
-    Alert.alert("Success", "You've Registered", [
+    Alert.alert(undefined, "You've Registered", [
       {
         text: "OK",
         onPress: () => {
@@ -82,7 +88,7 @@ export const Register = (props) => {
   }
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-      {gettingCells && !cells ? (
+      {!cells && !villages ? (
         <View style={{ flex: 1 }}>
           <UIActivityIndicator color={MAIN_COLOR} size={50} />
         </View>
@@ -159,7 +165,24 @@ export const Register = (props) => {
             value={creds.password}
             onChangeText={(text) => handlerChange("password", text)}
             placeholder="Create password"
-            secureTextEntry={true}
+            secureTextEntry={viewPassword}
+            icon={
+              viewPassword ? (
+                <icons.Entypo
+                  name="eye-with-line"
+                  size={24}
+                  color={MAIN_COLOR}
+                  onPress={togglePassword}
+                />
+              ) : (
+                <icons.Entypo
+                  name="eye"
+                  size={24}
+                  color={MAIN_COLOR}
+                  onPress={togglePassword}
+                />
+              )
+            }
           />
 
           {loading ? (

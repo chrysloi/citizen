@@ -43,7 +43,7 @@ export const NewUser = (props) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
-  const [viewPassword, setViewPassword] = useState(false);
+  const [viewPassword, setViewPassword] = useState(true);
   const [creds, setCreds] = useState(initialData);
   const [cellValue, setCellValue] = useState();
   const [villageValue, setVillageValue] = useState();
@@ -79,7 +79,7 @@ export const NewUser = (props) => {
     dispatch(RegisterUser(creds));
   };
   if (isRegistered) {
-    Alert.alert("Success", "User is Registered", [
+    Alert.alert(undefined, "User is Registered", [
       {
         text: "OK",
         onPress: () => {
@@ -127,7 +127,7 @@ export const NewUser = (props) => {
           />
 
           <Input
-            label="role"
+            label="User role"
             picker={true}
             toPicker={
               <Picker
