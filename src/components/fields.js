@@ -16,6 +16,7 @@ export const Input = ({
   width = "100%",
   marginBottom = 2 * vh,
   icon = null,
+  onPress = () => {},
 }) => {
   return (
     <View style={{}}>
@@ -26,6 +27,7 @@ export const Input = ({
           marginBottom: 0.5 * vh,
           marginLeft: 1 * vw,
         }}
+        onPress={onPress}
       >
         {label}
       </Text>
@@ -103,6 +105,7 @@ export const TextField = ({
   fontFamily = "Poppins_400Regular",
   marginBottom = 2 * vh,
   textColor = "#000",
+  onPress = () => {},
 }) => {
   return (
     <View>
@@ -116,6 +119,7 @@ export const TextField = ({
           maxWidth: "100%",
           color: textColor,
         }}
+        onPress={onPress}
       >
         {value}
       </Text>

@@ -110,7 +110,7 @@ export const ManageUsers = () => {
         }}
         keyExtractor={(_, index) => index.toString()}
       />
-      <Modal visible={userModal} transparent>
+      <Modal visible={userModal} transparent style={{ flex: 1 }}>
         <KeyboardAwareScrollView
           style={{ flex: 1 }}
           showsVerticalScrollIndicator={false}

@@ -25,6 +25,7 @@ export const ViewInquiry = (props) => {
   const dispatch = useDispatch();
   const { navigation } = props;
   const [data, setData] = useState({ comment: "" });
+  const [edit, setEditing] = useState(false);
   const { inquiry } = props.route.params;
   const {
     comments: { comments, loading, isCommented },
@@ -59,12 +60,7 @@ export const ViewInquiry = (props) => {
     });
   };
 
-  // if (isCommented) {
-  //   setData("");
-  //   dispatch(GetComments({ inquiryId: inquiry._id }));
-  // }
-
-  console.log(inquiry);
+  console.log(user);
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -83,7 +79,7 @@ export const ViewInquiry = (props) => {
           size={20}
           color="black"
           onPress={() => {
-            navigation.navigate("Main");
+            navigation.goBack();
           }}
         />
         <TextField
@@ -92,16 +88,16 @@ export const ViewInquiry = (props) => {
           fontFamily="Poppins_500Medium"
           marginBottom={0}
         />
-        <icons.AntDesign
-          name="edit"
-          size={20}
-          color="black"
-          onPress={() => {
-            // Promise.resolve(setInquiry({})).then(() => {
-            //   setViewIquiry(!viewIquiry);
-            // });
-          }}
-        />
+        {user?.user?.role === "user" && (
+          <icons.AntDesign
+            name="edit"
+            size={20}
+            color="black"
+            onPress={() => {
+              setEditing(true);
+            }}
+          />
+        )}
       </View>
       <View
         style={{
@@ -111,33 +107,60 @@ export const ViewInquiry = (props) => {
           flex: 1,
         }}
       >
+        {/* {edit ? (
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Input
+              placeholder="Type your comment"
+              onChangeText={(text) => {
+                setData({ ...data, comment: text });
+              }}
+              value={data.comment}
+              width="195%"
+            />
+            <TouchableOpacity
+              style={{
+                backgroundColor: MAIN_COLOR,
+                paddingHorizontal: 2 * vw,
+                borderRadius: 10,
+                height: 7 * vh,
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center",
+                marginTop: 2 * vh,
+              }}
+              onPress={() => setEditing(false)}
+            >
+              <TextField value={"Comment"} marginBottom={0} textColor="#fff" />
+            </TouchableOpacity>
+          </View>
+        ) : (
+        )} */}
         <TextField value={inquiry.description} fontSize={16} />
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <View style={{}}>
           <Input
             placeholder="Type your comment"
             onChangeText={(text) => {
               setData({ ...data, comment: text });
             }}
             value={data.comment}
-            width="195%"
           />
           <TouchableOpacity
             style={{
               backgroundColor: MAIN_COLOR,
               paddingHorizontal: 2 * vw,
               borderRadius: 10,
-              height: 7 * vh,
+              height: 6 * vh,
               justifyContent: "center",
               alignItems: "center",
               alignSelf: "center",
-              marginTop: 2 * vh,
+              marginTop: 1 * vh,
             }}
             onPress={() => createComment()}
           >
