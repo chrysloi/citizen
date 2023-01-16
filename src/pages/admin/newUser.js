@@ -36,7 +36,7 @@ const initialData = {
   cell: "",
 };
 
-const roles = ["user", "village", "cell", "admin"];
+const roles = ["user", "village", "cell", "sector"];
 
 export const NewUser = (props) => {
   const navigation = useNavigation();

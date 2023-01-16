@@ -14,14 +14,14 @@ import { MAIN_COLOR } from "../utils";
 import { vw } from "../utils/units";
 import { TextField } from "./fields";
 
-export const InquiryCard = ({ inquiry }) => {
+export const InquiryCard = ({ inquiry, onPress }, props) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate("ViewInquiry", { inquiry });
+        navigation.navigate("ViewInquiry", { inquiryId: inquiry._id });
       }}
     >
       <View style={styles.textgr}>

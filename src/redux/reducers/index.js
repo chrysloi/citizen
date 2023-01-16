@@ -4,6 +4,7 @@ import { cellsReducer } from "./cells";
 import {
   createInquiryReducer,
   inquiriesReducer,
+  requestSupportReducer,
   resolveInquiryReducer,
 } from "./inquiry";
 import {
@@ -26,5 +27,6 @@ export default combineReducers({
   inquiries: inquiriesReducer,
   createInquiry: createInquiryReducer,
   resolveInquiry: resolveInquiryReducer,
+  requestSupport: requestSupportReducer,
   comments: commentsReducer,
 });

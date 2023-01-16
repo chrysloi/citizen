@@ -27,7 +27,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 // import { LevelCard } from "../../components/villageComponents/levelCard";
 
-const roles = ["user", "village", "cell", "admin"];
+const roles = ["user", "village", "cell", "sector"];
 
 export const ManageUsers = () => {
   const navigation = useNavigation();

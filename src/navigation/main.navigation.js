@@ -49,7 +49,7 @@ export const MainNavigator = () => {
           },
         }}
       />
-      {user?.user?.role === "admin" && (
+      {user?.user?.role === "sector" && (
         <Tab.Screen
           name="Admin"
           component={Screens.AdminPanel}

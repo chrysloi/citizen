@@ -14,6 +14,9 @@ import {
   RESOLVE_INQUIRY,
   RESOLVE_INQUIRY_SUCESS,
   RESOLVE_INQUIRY_FAILED,
+  REQUEST_SUPPORT,
+  REQUEST_SUPPORT_SUCESS,
+  REQUEST_SUPPORT_FAILED,
 } from "../types";
 import { initialState } from "../../utils";
 
@@ -146,6 +149,35 @@ export const resolveInquiryReducer = (
         resolved: true,
       };
     case RESOLVE_INQUIRY_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const requestSupportReducer = (
+  state = { ...initialState, requested: false, message: "" },
+  { type, payload }
+) => {
+  switch (type) {
+    case REQUEST_SUPPORT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case REQUEST_SUPPORT_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        message: "Resolved successfully",
+        requested: true,
+      };
+    case REQUEST_SUPPORT_FAILED:
       return {
         ...state,
         loading: false,

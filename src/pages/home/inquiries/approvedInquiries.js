@@ -21,19 +21,52 @@ import { GetComments } from "../../../redux/actions/comment";
 import moment from "moment";
 import { UIActivityIndicator } from "react-native-indicators";
 import { InquiryCard } from "../../../components/inquiryCard";
-// import { InquiryCard } from "../userComponents/inquiryCard";
-// import { ViewInquiry } from "../viewInquiry";
 
 export const ApprovedInquiries = (navigation) => {
   // const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [viewIquiry, setViewIquiry] = useState(false);
+  const [filterText, setFilterText] = useState({
+    toFilter: "",
+    wordFilter: "",
+  });
+  const [filter, setFilter] = useState(false);
+  const [filtered, setFiltered] = useState([]);
+  const [filter2, setFilter2] = useState(false);
   const [inquiry, setInquiry] = useState({});
   const {
     inquiries: { inquiries, loading },
     login: { user },
-    // comments: { comments, loading },
   } = useSelector((state) => state);
+
+  useEffect(() => {
+    if (filterText.toFilter === "categories") {
+      setFiltered(
+        inquiries.filter(
+          (item) => item.category?.name === filterText.wordFilter
+        )
+      );
+    }
+    if (filterText.toFilter === "villages") {
+      setFiltered(
+        inquiries.filter((item) => item.village?.name === filterText.wordFilter)
+      );
+    }
+    if (filterText.toFilter === "cells") {
+      setFiltered(
+        inquiries.filter((item) => item.cell?.name === filterText.wordFilter)
+      );
+    }
+  }, [filterText]);
+
+  const categoriesFilters = Array.from(
+    new Set(inquiries.map((inquiry) => inquiry.category?.name))
+  );
+  const villageFilters = Array.from(
+    new Set(inquiries.map((inquiry) => inquiry.village?.name))
+  );
+  const cellFilters = Array.from(
+    new Set(inquiries.map((inquiry) => inquiry.cell?.name))
+  );
 
   const onRefresh = () => {
     dispatch(GetInquiries({}));
@@ -43,13 +76,113 @@ export const ApprovedInquiries = (navigation) => {
     dispatch(GetInquiries({}));
   }, []);
 
-  console.log(inquiries);
+  console.log(filterText);
+  console.log(filtered);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <View style={styles.container}> */}
-      <TouchableOpacity style={[styles.btn]} onPress={() => onRefresh()}>
-        <TextField value={"Refresh"} marginBottom={0} textColor="#fff" />
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginHorizontal: vw * 2,
+        }}
+      >
+        <TouchableOpacity style={[styles.btn]} onPress={() => onRefresh()}>
+          <TextField value={"Refresh"} marginBottom={0} textColor="#fff" />
+        </TouchableOpacity>
+        <icons.AntDesign
+          name="filter"
+          color={MAIN_COLOR}
+          size={30}
+          onPress={() => setFilter(true)}
+        />
+        {filter && (
+          <View style={styles.modal}>
+            <TouchableOpacity
+              onPress={() => {
+                setFilter(false);
+                setFilterText({ wordFilter: "", toFilter: "" });
+                setFiltered([]);
+              }}
+            >
+              <TextField value={"clear"} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setFilter(false);
+                setFilterText({ ...filterText, toFilter: "categories" });
+                setFilter2(true);
+              }}
+            >
+              <TextField value={"categories"} />
+            </TouchableOpacity>
+            {(user?.user?.role === "cell" || user?.user?.role === "sector") && (
+              <TouchableOpacity
+                onPress={() => {
+                  setFilter(false);
+                  setFilterText({ ...filterText, toFilter: "villages" });
+                  setFilter2(true);
+                }}
+              >
+                <TextField value={"villages"} />
+              </TouchableOpacity>
+            )}
+            {user?.user?.role === "sector" && (
+              <TouchableOpacity
+                onPress={() => {
+                  setFilter(false);
+                  setFilterText({ ...filterText, toFilter: "cells" });
+                  setFilter2(true);
+                }}
+              >
+                <TextField value={"cells"} />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
+        {filter2 && (
+          <View style={styles.modal}>
+            {filterText.toFilter === "categories" &&
+              categoriesFilters.map((option) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFilter2(false);
+                      setFilterText({ ...filterText, wordFilter: option });
+                    }}
+                  >
+                    <TextField value={option} />
+                  </TouchableOpacity>
+                );
+              })}
+            {filterText.toFilter === "villages" &&
+              villageFilters.map((option) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFilter2(false);
+                    }}
+                  >
+                    <TextField value={option} />
+                  </TouchableOpacity>
+                );
+              })}
+            {filterText.toFilter === "cells" &&
+              cellFilters.map((option) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFilter2(false);
+                    }}
+                  >
+                    <TextField value={option} />
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
+        )}
+      </View>
       {loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -59,7 +192,11 @@ export const ApprovedInquiries = (navigation) => {
       ) : (
         <FlatList
           refreshing={loading}
-          data={inquiries.filter((item) => item.status === "Resolved")}
+          data={
+            filtered.length > 0
+              ? filtered.filter((item) => item.status === "Resolved")
+              : inquiries.filter((item) => item.status === "Resolved")
+          }
           renderItem={({ item }) => <InquiryCard inquiry={item} />}
           keyExtractor={(item) => item._id}
         />
@@ -88,6 +225,23 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#fff",
   },
+  modal: {
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    position: "absolute",
+    top: 15,
+    right: vw * 2,
+    paddingHorizontal: vw * 2,
+    paddingTop: vh * 2,
+    borderRadius: 10,
+    borderColor: "whitesmoke",
+    borderWidth: 2,
+    backgroundColor: "#fff",
+    zIndex: 1,
+    shadowOpacity: 0.2,
+  },
   btn: {
     padding: 10,
     backgroundColor: MAIN_COLOR,
@@ -96,7 +250,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     minWidth: vw * 30,
     marginTop: 15,
-    marginHorizontal: 15,
+    // marginHorizontal: 15,
   },
   cardContainer: {
     marginHorizontal: vw * 2,

@@ -13,7 +13,12 @@ import { vh, vw } from "../../../utils/units";
 import { Input, TextField } from "../../../components/fields";
 import { CreateComment, GetComments } from "../../../redux/actions/comment";
 import { MAIN_COLOR } from "../../../utils";
-import { ResolveInquiry } from "../../../redux/actions";
+import {
+  ResolveInquiry,
+  UpdateInquiry,
+  GetInquiries,
+  RequestSupport,
+} from "../../../redux/actions";
 
 const initialData = {
   user: "",
@@ -25,42 +30,63 @@ export const ViewInquiry = (props) => {
   const dispatch = useDispatch();
   const { navigation } = props;
   const [data, setData] = useState({ comment: "" });
+  const [inquiry, setInquiry] = useState();
+  const [description, setDescription] = useState({ description: "", _id: "" });
   const [edit, setEditing] = useState(false);
-  const { inquiry } = props.route.params;
+  const { inquiryId } = props.route.params;
   const {
+    inquiries: { inquiries },
     comments: { comments, loading, isCommented },
     login: { user },
   } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(GetComments({ inquiryId: inquiry._id }));
-  }, []);
+    // dispatch(GetInquiries({}));
+    setInquiry(inquiries.filter((item) => item._id === inquiryId)[0]);
+  }, [inquiries, inquiryId]);
+  useEffect(() => {
+    if (inquiry) {
+      setDescription({
+        description: inquiry?.description,
+        _id: inquiry?._id,
+      });
+      dispatch(GetComments({ inquiryId: inquiry?._id }));
+    }
+  }, [inquiry]);
 
   const onRefresh = () => {
-    dispatch(GetComments({ inquiryId: inquiry._id }));
+    dispatch(GetComments({ inquiryId: inquiry?._id }));
   };
 
   const validate = () => {
-    if (data.comment === "") alert("Comment is required");
+    if (data.comment === "") return alert("Comment is required");
     // if (data.inquiry === "") alert('Comment is required')
   };
 
   const handleResolve = () => {
     console.log("pressed");
-    dispatch(ResolveInquiry(inquiry._id));
+    dispatch(ResolveInquiry(inquiry?._id));
   };
 
   const createComment = () => {
     validate();
     Promise.resolve(
-      dispatch(CreateComment({ inquiryId: inquiry._id, data: data }))
+      dispatch(CreateComment({ inquiryId: inquiry?._id, data: data }))
     ).then(() => {
       setData({ comment: "" });
-      dispatch(GetComments({ inquiryId: inquiry._id }));
+      dispatch(GetComments({ inquiryId: inquiry?._id }));
     });
   };
 
-  console.log(user);
+  const updateInquiry = () => {
+    if (description.description === "")
+      return alert("You can't leave the description empty");
+    dispatch(UpdateInquiry(description));
+    dispatch(GetInquiries({}));
+  };
+
+  console.log(inquiries.filter((item) => item._id === inquiryId)[0]);
+  console.log(inquiry);
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -79,16 +105,16 @@ export const ViewInquiry = (props) => {
           size={20}
           color="black"
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate("Main");
           }}
         />
         <TextField
-          value={inquiry.title}
+          value={inquiry?.title}
           fontSize={20}
           fontFamily="Poppins_500Medium"
           marginBottom={0}
         />
-        {user?.user?.role === "user" && (
+        {user?.user?.role === "user" ? (
           <icons.AntDesign
             name="edit"
             size={20}
@@ -97,77 +123,109 @@ export const ViewInquiry = (props) => {
               setEditing(true);
             }}
           />
+        ) : (
+          <icons.AntDesign
+            name="edit"
+            size={20}
+            color="white"
+            onPress={() => {}}
+          />
         )}
       </View>
       <View
         style={{
           paddingHorizontal: vw * 2,
-          paddingTop: 2 * vh,
+          paddingTop: 1 * vh,
           // backgroundColor: "#fff",
           flex: 1,
         }}
       >
-        {/* {edit ? (
+        {edit ? (
           <View
             style={{
-              flexDirection: "row",
+              // flexDirection: "row",
               width: "100%",
-              justifyContent: "space-between",
-              alignItems: "center",
+              // justifyContent: "space-between",
+              // alignItems: "center",
             }}
           >
             <Input
               placeholder="Type your comment"
               onChangeText={(text) => {
-                setData({ ...data, comment: text });
+                setDescription({ ...description, description: text });
               }}
-              value={data.comment}
-              width="195%"
+              value={description.description}
+              marginBottom={1 * vh}
+              multiline={true}
             />
             <TouchableOpacity
               style={{
                 backgroundColor: MAIN_COLOR,
                 paddingHorizontal: 2 * vw,
                 borderRadius: 10,
-                height: 7 * vh,
+                height: 6 * vh,
                 justifyContent: "center",
                 alignItems: "center",
                 alignSelf: "center",
-                marginTop: 2 * vh,
+                minWidth: 20 * vw,
               }}
-              onPress={() => setEditing(false)}
+              onPress={() => {
+                updateInquiry();
+                setEditing(false);
+              }}
             >
-              <TextField value={"Comment"} marginBottom={0} textColor="#fff" />
+              <TextField value={"Save"} marginBottom={0} textColor="#fff" />
             </TouchableOpacity>
           </View>
         ) : (
-        )} */}
-        <TextField value={inquiry.description} fontSize={16} />
-        <View style={{}}>
-          <Input
-            placeholder="Type your comment"
-            onChangeText={(text) => {
-              setData({ ...data, comment: text });
-            }}
-            value={data.comment}
-          />
-          <TouchableOpacity
-            style={{
-              backgroundColor: MAIN_COLOR,
-              paddingHorizontal: 2 * vw,
-              borderRadius: 10,
-              height: 6 * vh,
-              justifyContent: "center",
-              alignItems: "center",
-              alignSelf: "center",
-              marginTop: 1 * vh,
-            }}
-            onPress={() => createComment()}
-          >
-            <TextField value={"Comment"} marginBottom={0} textColor="#fff" />
-          </TouchableOpacity>
-        </View>
-        {user.user?.role !== "user" && inquiry?.status !== "Resolved" && (
+          <>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                paddingHorizontal: 2 * vw,
+                paddingVertical: 1 * vh,
+                borderRadius: 10,
+                marginBottom: 1 * vh,
+              }}
+            >
+              <TextField
+                value={inquiry?.description}
+                fontSize={16}
+                marginBottom={0}
+              />
+            </View>
+            {user.user?.role === inquiry?.status && (
+              <View>
+                <Input
+                  placeholder="Type your comment"
+                  onChangeText={(text) => {
+                    setData({ ...data, comment: text });
+                  }}
+                  value={data.comment}
+                />
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: MAIN_COLOR,
+                    paddingHorizontal: 2 * vw,
+                    borderRadius: 10,
+                    height: 6 * vh,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignSelf: "center",
+                  }}
+                  onPress={() => createComment()}
+                >
+                  <TextField
+                    value={"Comment"}
+                    marginBottom={0}
+                    textColor="#fff"
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          </>
+        )}
+        {user.user?.role !== "user" && inquiries?.status !== "Resolved" && (
           <View
             style={{
               flexDirection: "row",
@@ -175,31 +233,42 @@ export const ViewInquiry = (props) => {
               justifyContent: "space-around",
             }}
           >
-            {!inquiry.support && (
-              <TouchableOpacity
-                style={[styles.btn]}
-                onPress={handleResolve}
-                disabled={!inquiry.support}
-              >
-                <TextField
-                  value={"Mark resolved"}
-                  marginBottom={0}
-                  textColor="#fff"
-                />
-              </TouchableOpacity>
-            )}
-            {inquiry.support && (
-              <TouchableOpacity
-                style={[styles.btn]}
-                // onPress={() => navigation.navigate("AddUser")}
-              >
-                <TextField
-                  value={"Request support"}
-                  marginBottom={0}
-                  textColor="#fff"
-                />
-              </TouchableOpacity>
-            )}
+            {user.user?.role === inquiry?.status &&
+              (!inquiry?.cellSupport || !inquiry?.sectorSupport) && (
+                <TouchableOpacity
+                  style={[styles.btn]}
+                  onPress={handleResolve}
+                  // disabled={!inquiry?.support}
+                >
+                  <TextField
+                    value={"Mark resolved"}
+                    marginBottom={0}
+                    textColor="#fff"
+                  />
+                </TouchableOpacity>
+              )}
+            {(user.user?.role === "cell" || user.user?.role === "village") &&
+              ((!inquiry?.sectorSupport && inquiry?.cellSupport) ||
+                !inquiry?.cellSupport) && (
+                <TouchableOpacity
+                  disabled={user.user?.role !== inquiry?.status}
+                  style={[styles.btn]}
+                  onPress={() => {
+                    dispatch(RequestSupport(inquiry._id));
+                    dispatch(GetInquiries({}));
+                  }}
+                >
+                  <TextField
+                    value={
+                      user.user?.role !== inquiry?.status
+                        ? "Support requested"
+                        : "Request support"
+                    }
+                    marginBottom={0}
+                    textColor="#fff"
+                  />
+                </TouchableOpacity>
+              )}
           </View>
         )}
         <View

@@ -16,19 +16,22 @@ export const Input = ({
   width = "100%",
   marginBottom = 2 * vh,
   icon = null,
+  multiline = false,
 }) => {
   return (
-    <View style={{}}>
-      <Text
-        style={{
-          fontSize: 4.5 * vw,
-          fontFamily: "Poppins_400Regular",
-          marginBottom: 0.5 * vh,
-          marginLeft: 1 * vw,
-        }}
-      >
-        {label}
-      </Text>
+    <View>
+      {label && (
+        <Text
+          style={{
+            fontSize: 4.5 * vw,
+            fontFamily: "Poppins_400Regular",
+            marginBottom: 0.5 * vh,
+            marginLeft: 1 * vw,
+          }}
+        >
+          {label}
+        </Text>
+      )}
       {picker ? (
         <View
           style={{
@@ -70,6 +73,7 @@ export const Input = ({
             keyboardType={keyboardType}
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
+            multiline={multiline}
             style={{
               flexDirection: "row",
               borderWidth: 1,

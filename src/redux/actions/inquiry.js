@@ -17,6 +17,9 @@ import {
   RESOLVE_INQUIRY,
   RESOLVE_INQUIRY_SUCESS,
   RESOLVE_INQUIRY_FAILED,
+  REQUEST_SUPPORT,
+  REQUEST_SUPPORT_SUCESS,
+  REQUEST_SUPPORT_FAILED,
 } from "../types";
 
 export const CreateInquiry = (inquiry) => async (dispatch) => {
@@ -106,6 +109,28 @@ export const ResolveInquiry = (inquiryId) => async (dispatch) => {
   } catch (error) {
     console.error(error);
     dispatch(Action(RESOLVE_INQUIRY_FAILED, err));
+  }
+};
+
+export const RequestSupport = (inquiryId) => async (dispatch) => {
+  try {
+    dispatch(Action(REQUEST_SUPPORT));
+    axios({
+      method: "patch",
+      url: `${BASE_URL}/inquiry/support/${inquiryId}`,
+      headers: {
+        Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`,
+      },
+    })
+      .then((res) => {
+        dispatch(Action(REQUEST_SUPPORT_SUCESS, res.data.data));
+      })
+      .catch((err) => {
+        dispatch(Action(REQUEST_SUPPORT_FAILED, err));
+      });
+  } catch (error) {
+    console.error(error);
+    dispatch(Action(REQUEST_SUPPORT_FAILED, err));
   }
 };
 
