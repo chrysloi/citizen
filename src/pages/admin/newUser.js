@@ -97,12 +97,31 @@ export const NewUser = (props) => {
         </View>
       ) : (
         <KeyboardAwareScrollView style={styles.container}>
-          {/* <Text style={styles.title}>Create your account</Text> */}
-          <TextField
-            value="Add new user"
-            fontSize={25}
-            fontFamily="Poppins_500Medium"
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 2 * vh,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <icons.AntDesign
+                name="left"
+                size={25}
+                style={{ marginEnd: 2 * vw }}
+              />
+            </TouchableOpacity>
+            <TextField
+              value="Add new leader"
+              fontSize={25}
+              fontFamily="Poppins_500Medium"
+              marginBottom={0}
+            />
+          </View>
           <Input
             label="Full name"
             value={creds.name}
@@ -216,7 +235,7 @@ export const NewUser = (props) => {
             </View>
           )}
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.signIn}>Add user</Text>
+            <Text style={styles.signIn}>Add leader</Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
       )}

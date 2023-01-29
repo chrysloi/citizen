@@ -8,7 +8,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Keyboard,
+  Alert,
 } from "react-native";
+import { StatusBar as Bar } from "expo-status-bar";
+import * as icons from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +19,9 @@ import { UIActivityIndicator } from "react-native-indicators";
 import { vh, vmax, vw } from "../../utils/units";
 import { BASE_URL, MAIN_COLOR, storeToken } from "../../utils";
 import { Input } from "../../components/fields";
-import { LoginUser } from "../../redux/actions/users";
+import { LoginUser, resetLogin } from "../../redux/actions/users";
 import { useNavigation } from "@react-navigation/native";
+import { Notify } from "../../utils/notification";
 
 const initialData = {
   phone: "",
@@ -27,29 +31,63 @@ export const Login = (props) => {
   // const { navigation } = props;
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { user, loading, isLoggedIn } = useSelector((state) => state.login);
+  const { user, loading, isLoggedIn, error } = useSelector(
+    (state) => state.login
+  );
   const [creds, setCreds] = useState(initialData);
+  const [viewPassword, setViewPassword] = useState(true);
 
   const handlerChange = (key, value) => {
     setCreds((prevCred) => ({ ...prevCred, [key]: value }));
   };
 
+  const togglePassword = () => {
+    setViewPassword(!viewPassword);
+  };
+
   const validate = () => {
-    if (creds.phone === "" || creds.password === "") {
-      return alert("All field are required");
-    }
+    // const regex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/);
+    // const phoneRegex = new RegExp(/^(078|072|073|079)\d{7}$/);
+    // if (creds.phone === "") {
+    //   return Notify({ message: "phone field is required" });
+    // }
+    // if (phoneRegex.test(creds.phone) !== true) {
+    //   return Notify({
+    //     message:
+    //       "Your phone number isn't valid. it should contain 10 digits and starts with 079 or 078 or 073 or 072",
+    //   });
+    // }
+
+    // if (creds.password === "") {
+    //   return Notify({ message: "password field is required" });
+    // }
+    // if (regex.test(creds.password) !== true) {
+    //   return Notify({
+    //     message:
+    //       "your password should contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number",
+    //   });
+    // }
+    dispatch(LoginUser(creds));
   };
 
   const handleLogin = () => {
     validate();
-    dispatch(LoginUser(creds));
   };
-  // if (user) {
-  //   navigation.navigate("Main");
-  // }
+  if (user) {
+    navigation.navigate("Main");
+  }
+  if (error) {
+    Notify({
+      message: error,
+      onPress: () => {
+        dispatch(resetLogin());
+      },
+    });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+      <Bar style="dark" />
       <KeyboardAwareScrollView style={{ flex: 1 }}>
         <View style={[styles.container]}>
           <Text style={styles.title}>Login to your {"\n"}account</Text>
@@ -66,7 +104,24 @@ export const Login = (props) => {
             value={creds.password}
             onChangeText={(text) => handlerChange("password", text)}
             placeholder="Your password"
-            secureTextEntry={true}
+            secureTextEntry={viewPassword}
+            icon={
+              viewPassword ? (
+                <icons.Entypo
+                  name="eye-with-line"
+                  size={24}
+                  color={MAIN_COLOR}
+                  onPress={togglePassword}
+                />
+              ) : (
+                <icons.Entypo
+                  name="eye"
+                  size={24}
+                  color={MAIN_COLOR}
+                  onPress={togglePassword}
+                />
+              )
+            }
           />
 
           {loading && (

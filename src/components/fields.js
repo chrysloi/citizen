@@ -74,6 +74,7 @@ export const Input = ({
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
             multiline={multiline}
+            // maxLength={label === "Phone" && 10}
             style={{
               flexDirection: "row",
               borderWidth: 1,

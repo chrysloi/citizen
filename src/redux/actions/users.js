@@ -20,6 +20,7 @@ import {
   REGISTER_SUCESS,
   REGISTER_FAILED,
   RESET,
+  RESET_LOGIN,
 } from "../types";
 import { BASE_URL } from "../../utils";
 import axios from "axios";
@@ -38,11 +39,15 @@ export const LoginUser = (creds) => (dispatch) => {
       })
       .catch((err) => {
         console.error(err);
-        dispatch(Action(LOGIN_FAILED, err));
+        dispatch(Action(LOGIN_FAILED, err.response.data.error));
       });
   } catch (error) {
     console.error(error);
   }
+};
+
+export const resetLogin = () => (dispatch) => {
+  dispatch(Action(RESET_LOGIN, "Reset Login success"));
 };
 
 export const RegisterUser = (creds) => (dispatch) => {
@@ -55,7 +60,7 @@ export const RegisterUser = (creds) => (dispatch) => {
       })
       .catch((err) => {
         console.info(err);
-        dispatch(Action(CREATE_USER_FAILED, err));
+        dispatch(Action(CREATE_USER_FAILED, err.response.data.error));
       });
   } catch (error) {
     console.error(error);

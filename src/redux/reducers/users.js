@@ -15,6 +15,7 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
   RESET,
+  RESET_LOGIN,
 } from "../types";
 import { initialState } from "../../utils";
 
@@ -47,6 +48,13 @@ export const loginUserReducer = (
         ...state,
         loading: false,
         user: {},
+        isLoggedIn: false,
+      };
+    case RESET_LOGIN:
+      return {
+        ...state,
+        loading: false,
+        error: null,
         isLoggedIn: false,
       };
     default:
@@ -83,6 +91,7 @@ export const RegisterUserReducer = (
         loading: false,
         user: {},
         isRegistered: false,
+        error: null,
       };
     default:
       return state;

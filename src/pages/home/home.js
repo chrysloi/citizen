@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
+import { StatusBar as Bar } from "expo-status-bar";
 import * as icons from "@expo/vector-icons";
 import {
   MaterialIndicator,
@@ -39,6 +40,7 @@ export const UserHome = (props) => {
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Bar style="dark" />
       <View style={{ flex: 1 }}>
         <View style={styles.head}>
           <TextField

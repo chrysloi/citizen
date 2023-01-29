@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
+import { StatusBar as Bar } from "expo-status-bar";
 import {
   SafeAreaView,
   StyleSheet,
@@ -35,6 +36,7 @@ export const AdminPanel = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Bar style="dark" />
       <View style={Style.header}>
         <TextField
           value={option}

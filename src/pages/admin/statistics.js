@@ -11,6 +11,7 @@ import { MAIN_COLOR } from "../../utils";
 import { vh, vw } from "../../utils/units";
 import { TextField } from "../../components/fields";
 import { useSelector } from "react-redux";
+import { Chart } from "../../components/chart";
 
 export const Statistics = () => {
   const [filterText, setFilterText] = useState({
@@ -18,8 +19,13 @@ export const Statistics = () => {
     wordFilter: "",
   });
   const [filter, setFilter] = useState(false);
+  const [resolved, setResolved] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter2, setFilter2] = useState(false);
+  const data = [
+    { label: "Section 1", value: 60, color: "#F00" },
+    { label: "Section 2", value: 40, color: "#0F0" },
+  ];
 
   const {
     inquiries: { inquiries, loading },
@@ -51,6 +57,12 @@ export const Statistics = () => {
     }
   }, [filterText]);
 
+  useEffect(() => {
+    if (inquiries) {
+      setResolved(inquiries.filter((inquiry) => inquiry.status !== "Resolved"));
+    }
+  }, [inquiries]);
+
   const categoriesFilters = Array.from(
     new Set(inquiries.map((inquiry) => inquiry.category?.name))
   );
@@ -64,7 +76,7 @@ export const Statistics = () => {
     new Set(inquiries.map((inquiry) => inquiry.status))
   );
 
-  console.log(statusFilters);
+  console.log(resolved);
   const timeFiltered = (arr) => {
     const today = new Date();
     return arr.filter((item) => {
@@ -79,8 +91,10 @@ export const Statistics = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 2 * vw }}>
-      <icons.AntDesign
+    <SafeAreaView
+      style={{ flex: 1, paddingHorizontal: 2 * vw, paddingVertical: 2 * vh }}
+    >
+      {/* <icons.AntDesign
         name="filter"
         color={MAIN_COLOR}
         size={30}
@@ -192,27 +206,61 @@ export const Statistics = () => {
               );
             })}
         </View>
-      )}
+      )} */}
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={style.statCard}>
-          <TextField value="This month" marginBottom={0} />
+          <TextField value="Pending Inquiries" marginBottom={0} fontSize={20} />
           <TextField
             value={
-              timeFiltered(filtered.length > 0 ? filtered : inquiries).length
+              inquiries.filter((inquiry) => inquiry.status !== "Resolved")
+                .length
             }
             marginBottom={0}
             fontSize={40}
           />
-          <TextField value="inquiries" marginBottom={0} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              width: "100%",
+              marginTop: 20,
+            }}
+          >
+            <View style={{ alignItems: "center" }}>
+              <TextField value="Sector level" marginBottom={0} />
+              <TextField
+                value={
+                  inquiries.filter(
+                    (inquiry) =>
+                      inquiry.sectorSupport && inquiry.status === "sector"
+                  ).length
+                }
+                marginBottom={0}
+                fontSize={30}
+              />
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <TextField value="Cell level" marginBottom={0} />
+              <TextField
+                value={
+                  inquiries.filter(
+                    (inquiry) =>
+                      inquiry.cellSupport && inquiry.status === "cell"
+                  ).length
+                }
+                marginBottom={0}
+                fontSize={30}
+              />
+            </View>
+          </View>
         </View>
-        <View style={style.statCard}>
-          <TextField value="All time" marginBottom={0} />
+        <View style={[style.statCard]}>
           <TextField
-            value={(filtered.length > 0 ? filtered : inquiries).length}
-            fontSize={40}
+            value="Resolved Inquiries"
             marginBottom={0}
+            fontSize={20}
           />
-          <TextField value="inquiries" marginBottom={0} />
+          <Chart resolved={resolved} inquiries={inquiries} />
         </View>
       </View>
     </SafeAreaView>
@@ -223,6 +271,7 @@ const style = StyleSheet.create({
   statCard: {
     backgroundColor: "#fff",
     width: vw * 47,
+    height: 180,
     paddingHorizontal: vw * 2,
     paddingVertical: vh * 1,
     borderRadius: 10,

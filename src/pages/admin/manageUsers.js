@@ -76,7 +76,7 @@ export const ManageUsers = () => {
         style={[Style.btn, { marginTop: 15, marginHorizontal: 15 }]}
         onPress={() => navigation.navigate("NewUser")}
       >
-        <TextField value={"Add user"} marginBottom={0} textColor="#fff" />
+        <TextField value="Add leader" marginBottom={0} textColor="#fff" />
       </TouchableOpacity>
       <FlatList
         data={users.filter((user) => user.phone !== loggedInUser?.phone)}

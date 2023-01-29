@@ -25,6 +25,7 @@ import {
   resetRegister,
 } from "../../redux/actions";
 import { Input } from "../../components/fields";
+import { Notify } from "../../utils/notification";
 
 const initialData = {
   name: "",
@@ -48,7 +49,7 @@ export const Register = (props) => {
   const {
     cells: { cells, loading: gettingCells },
     villages: { villages, loading: gettingVillages },
-    register: { isRegistered },
+    register: { isRegistered, error },
   } = state;
 
   const handlerChange = (key, value) => {
@@ -60,11 +61,35 @@ export const Register = (props) => {
     dispatch(GetVillages({}));
   }, []);
   const validate = () => {
-    if (creds.name === "") return alert("Name is required");
-    if (creds.phone === "") return alert("Phone is required");
-    if (creds.password === "") return alert("Password is required");
-    if (creds.village === "") return alert("Village is required");
-    if (creds.cell === "") return alert("Cell is required");
+    const regex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/);
+    const phoneRegex = new RegExp(/^(078|072|073|079)\d{7}$/);
+    const emailRegex = new RegExp(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    );
+    if (creds.name === "") return Notify({ message: "Name is required" });
+    if (creds.phone === "") return Notify({ message: "Phone is required" });
+    if (phoneRegex.test(creds.phone) !== true) {
+      return Notify({
+        message:
+          "Your phone number isn't valid. it should contain 10 digits and starts with 079 or 078 or 073 or 072",
+      });
+    }
+    if (creds.email !== "" && emailRegex.test(creds.email) !== true) {
+      return Notify({
+        message: "Your email should respect this format 'email@example.com'",
+      });
+    }
+    if (creds.village === "") return Notify({ message: "Village is required" });
+    if (creds.cell === "") return Notify({ message: "Cell is required" });
+    if (creds.password === "")
+      return Notify({ message: "Password is required" });
+    if (regex.test(creds.password) !== true) {
+      return Notify({
+        message:
+          "your password should contain minimum 8 characters, at least one uppercase letter, one lowercase letter, one number",
+      });
+    }
+    dispatch(RegisterUser(creds));
   };
 
   const togglePassword = () => {
@@ -73,18 +98,24 @@ export const Register = (props) => {
 
   const handleRegister = () => {
     validate();
-    dispatch(RegisterUser(creds));
   };
   if (isRegistered) {
-    Alert.alert(undefined, "You've Registered", [
-      {
-        text: "OK",
-        onPress: () => {
-          navigation.navigate("Login");
-          dispatch(resetRegister());
-        },
+    Notify({
+      message: "You've been Registered",
+      onPress: () => {
+        navigation.navigate("Login");
+        dispatch(resetRegister());
       },
-    ]);
+    });
+  }
+  if (error) {
+    // console.log(error);
+    Notify({
+      message: error,
+      onPress: () => {
+        dispatch(resetRegister());
+      },
+    });
   }
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>

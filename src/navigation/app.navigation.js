@@ -1,8 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import { NewInquiry } from "../components.js/userComponents/newInquiry";
-// import { ViewInquiry } from "../components.js/viewInquiry";
 import { Screens } from "../pages";
 import { getValueForToken } from "../utils";
 import { MainNavigator } from "./main.navigation";
@@ -29,6 +27,7 @@ export const AppNavigator = () => {
     >
       {!isLoggedIn ? (
         <>
+          <Stack.Screen name="Introslider" component={Screens.IntroSlider} />
           <Stack.Screen name="Login" component={Screens.Login} />
           <Stack.Screen name="Register" component={Screens.Register} />
         </>

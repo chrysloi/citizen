@@ -20,6 +20,7 @@ import {
   REQUEST_SUPPORT,
   REQUEST_SUPPORT_SUCESS,
   REQUEST_SUPPORT_FAILED,
+  RESET_RESOLVE,
 } from "../types";
 
 export const CreateInquiry = (inquiry) => async (dispatch) => {
@@ -110,6 +111,10 @@ export const ResolveInquiry = (inquiryId) => async (dispatch) => {
     console.error(error);
     dispatch(Action(RESOLVE_INQUIRY_FAILED, err));
   }
+};
+
+export const resetResolve = () => (dispatch) => {
+  dispatch(Action(RESET_RESOLVE, "Reset Resolve"));
 };
 
 export const RequestSupport = (inquiryId) => async (dispatch) => {

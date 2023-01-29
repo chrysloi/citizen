@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import * as icons from "@expo/vector-icons";
+import { StatusBar as Bar } from "expo-status-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, vw } from "../../../utils/units";
 import { Input, TextField } from "../../../components/fields";
@@ -18,7 +19,10 @@ import {
   UpdateInquiry,
   GetInquiries,
   RequestSupport,
+  resetResolve,
 } from "../../../redux/actions";
+import { Notify } from "../../../utils/notification";
+import { UIActivityIndicator } from "react-native-indicators";
 
 const initialData = {
   user: "",
@@ -38,6 +42,7 @@ export const ViewInquiry = (props) => {
     inquiries: { inquiries },
     comments: { comments, loading, isCommented },
     login: { user },
+    resolveInquiry: { loading: resolving, message: resolved },
   } = useSelector((state) => state);
 
   useEffect(() => {
@@ -85,10 +90,21 @@ export const ViewInquiry = (props) => {
     dispatch(GetInquiries({}));
   };
 
+  if (resolved) {
+    Notify({
+      message: "Inquiry resolved",
+      onPress: () => {
+        dispatch(GetInquiries({}));
+        dispatch(resetResolve());
+      },
+    });
+  }
+
   console.log(inquiries.filter((item) => item._id === inquiryId)[0]);
   console.log(inquiry);
   return (
     <View style={{ flex: 1 }}>
+      <Bar style="dark" />
       <View
         style={{
           flexDirection: "row",
@@ -194,35 +210,36 @@ export const ViewInquiry = (props) => {
                 marginBottom={0}
               />
             </View>
-            {user.user?.role === inquiry?.status && (
-              <View>
-                <Input
-                  placeholder="Type your comment"
-                  onChangeText={(text) => {
-                    setData({ ...data, comment: text });
-                  }}
-                  value={data.comment}
-                />
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: MAIN_COLOR,
-                    paddingHorizontal: 2 * vw,
-                    borderRadius: 10,
-                    height: 6 * vh,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    alignSelf: "center",
-                  }}
-                  onPress={() => createComment()}
-                >
-                  <TextField
-                    value={"Comment"}
-                    marginBottom={0}
-                    textColor="#fff"
+            {user.user?.role === inquiry?.status ||
+              (user.user?.role === "user" && (
+                <View>
+                  <Input
+                    placeholder="Type your comment"
+                    onChangeText={(text) => {
+                      setData({ ...data, comment: text });
+                    }}
+                    value={data.comment}
                   />
-                </TouchableOpacity>
-              </View>
-            )}
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: MAIN_COLOR,
+                      paddingHorizontal: 2 * vw,
+                      borderRadius: 10,
+                      height: 6 * vh,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignSelf: "center",
+                    }}
+                    onPress={() => createComment()}
+                  >
+                    <TextField
+                      value={"Comment"}
+                      marginBottom={0}
+                      textColor="#fff"
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))}
           </>
         )}
         {user.user?.role !== "user" && inquiries?.status !== "Resolved" && (
@@ -240,11 +257,17 @@ export const ViewInquiry = (props) => {
                   onPress={handleResolve}
                   // disabled={!inquiry?.support}
                 >
-                  <TextField
-                    value={"Mark resolved"}
-                    marginBottom={0}
-                    textColor="#fff"
-                  />
+                  {resolving ? (
+                    <View style={styles.loading}>
+                      <UIActivityIndicator color={MAIN_COLOR} size={25} />
+                    </View>
+                  ) : (
+                    <TextField
+                      value={"Mark resolved"}
+                      marginBottom={0}
+                      textColor="#fff"
+                    />
+                  )}
                 </TouchableOpacity>
               )}
             {(user.user?.role === "cell" || user.user?.role === "village") &&

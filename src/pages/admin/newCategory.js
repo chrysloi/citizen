@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import * as icons from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -76,6 +77,31 @@ export const NewCategory = (props) => {
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
       <KeyboardAwareScrollView style={styles.container}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 2 * vh,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <icons.AntDesign
+              name="left"
+              size={25}
+              style={{ marginEnd: 2 * vw }}
+            />
+          </TouchableOpacity>
+          <TextField
+            value="Add new category"
+            fontSize={25}
+            fontFamily="Poppins_500Medium"
+            marginBottom={0}
+          />
+        </View>
         <Input
           label="Name"
           value={creds.title}

@@ -17,6 +17,7 @@ import {
   REQUEST_SUPPORT,
   REQUEST_SUPPORT_SUCESS,
   REQUEST_SUPPORT_FAILED,
+  RESET_RESOLVE,
 } from "../types";
 import { initialState } from "../../utils";
 
@@ -71,6 +72,12 @@ export const inquiriesReducer = (
         ...state,
         loading: false,
         message: "Resolved successfully",
+      };
+    case RESET_RESOLVE:
+      return {
+        ...state,
+        loading: false,
+        message: "",
       };
     case RESOLVE_INQUIRY_FAILED:
       return {

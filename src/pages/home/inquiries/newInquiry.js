@@ -9,12 +9,14 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import * as icons from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { UIActivityIndicator } from "react-native-indicators";
 import { useDispatch, useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
+import { StatusBar as Bar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import {
@@ -138,12 +140,33 @@ export const NewInquiry = (props) => {
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+      <Bar style="dark" />
       <KeyboardAwareScrollView style={styles.container}>
-        <TextField
-          value="What's going on?"
-          fontSize={25}
-          fontFamily="Poppins_500Medium"
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 2 * vh,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <icons.AntDesign
+              name="left"
+              size={25}
+              style={{ marginEnd: 2 * vw }}
+            />
+          </TouchableOpacity>
+          <TextField
+            value="What's going on?"
+            fontSize={25}
+            fontFamily="Poppins_500Medium"
+            marginBottom={0}
+          />
+        </View>
         <Input
           label="Title"
           value={creds.title}

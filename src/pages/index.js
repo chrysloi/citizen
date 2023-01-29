@@ -9,6 +9,7 @@ import { UserDetails } from "./profile/userDetails";
 import { AdminPanel } from "./admin";
 import { NewCategory } from "./admin/newCategory";
 import { NewUser } from "./admin/newUser";
+import { IntroSlider } from "./introSlider";
 
 export const Screens = {
   Login,
@@ -22,4 +23,5 @@ export const Screens = {
   AdminPanel,
   NewCategory,
   NewUser,
+  IntroSlider,
 };
